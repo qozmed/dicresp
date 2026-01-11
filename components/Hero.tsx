@@ -44,7 +44,7 @@ const Hero: React.FC = () => {
       {/* Content Container */}
       <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl pointer-events-auto mt-0 md:mt-0 -translate-y-8 sm:-translate-y-10 md:-translate-y-0">
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 100 }}
+          initial={{ opacity: 1, scale: 0.8, y: 100 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
