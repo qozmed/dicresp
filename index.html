@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Цифровое Креативное Пространство</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Importing requested fonts -->
+    <link href="https://fonts.cdnfonts.com/css/edit-undo-brk" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/serif-dot-digital-7" rel="stylesheet">
+    
+    <!-- NEW: Tektur for legible technical small text (Supports Cyrillic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        --primary-bg: #050508;
+        --secondary-bg: #0A0A0F;
+        --accent-cyan: #00F7FF;
+        --accent-blue: #0066FF;
+        --border-color: rgba(0, 247, 255, 0.15);
+        
+        /* Font Mappings */
+        --font-main: 'Serif Dot Digital-7', 'Digital-7', monospace;      
+        --font-special: 'Edit Undo Dot BRK', 'Edit Undo BRK', monospace;
+        --font-tech: 'Tektur', monospace; /* New legible tech font */
+      }
+
+      body {
+        font-family: var(--font-main);
+        background-color: var(--primary-bg);
+        color: #ffffff;
+        overflow-x: hidden; /* Only hide horizontal */
+        margin: 0;
+        /* Responsive base font size */
+        font-size: clamp(14px, 2.5vw, 16px);
+        letter-spacing: 0.05em;
+        /* Prevent text selection on mobile for better UX */
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        /* Prevent pull-to-refresh */
+        overscroll-behavior: none;
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      /* Mobile: lock page scrolling (we scroll inside .snap-container) */
+      @media (max-width: 767px) {
+        html, body {
+          height: 100%;
+          overflow: hidden;
+        }
+      }
+
+      @media (min-width: 768px) {
+        body {
+          font-size: 1.25rem;
+          overflow: hidden; /* Restore lock on desktop */
+          /* Allow text selection on desktop */
+          -webkit-user-select: text;
+          -moz-user-select: text;
+          -ms-user-select: text;
+          user-select: text;
+        }
+      }
+
+      /* CRITICAL FIX: Pixel fonts (Main & Special) must NEVER be bold */
+      .font-display, .font-edit-undo, h1, h2, h3, h4, h5, h6, b, strong {
+        font-weight: 400 !important; 
+      }
+
+      /* Force the special font class */
+      .font-edit-undo {
+        font-family: var(--font-special) !important;
+      }
+
+      /* Override Tailwind defaults */
+      .font-sans, .font-serif {
+        font-family: var(--font-main) !important;
+      }
+      
+      /* CHANGED: font-mono now uses the new legible Tech font */
+      .font-mono {
+        font-family: var(--font-tech) !important;
+        font-weight: 500; /* Tektur looks good with a bit of weight */
+        letter-spacing: 0.05em;
+      }
+      
+      /* Specific override for bold classes on pixel fonts */
+      .font-bold {
+         font-weight: 400 !important;
+         text-shadow: 0 0 1px currentColor; 
+      }
+      
+      /* Exception: Allow font-mono to use real bold if applied explicitly, as Tektur supports it */
+      .font-mono.font-bold {
+         font-weight: 600 !important;
+         text-shadow: none;
+      }
+
+      /* SCROLL SNAP LOGIC */
+      .snap-container {
+        width: 100vw;
+        height: 100vh;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+
+      .snap-section {
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* DESKTOP: Enable Snap */
+      @media (min-width: 768px) {
+        .snap-container {
+           scroll-snap-type: y mandatory;
+        }
+        .snap-section {
+           height: 100vh;
+           scroll-snap-align: start;
+           scroll-snap-stop: always;
+           overflow: hidden;
+        }
+      }
+
+      /* MOBILE: Container scrolling (no body scroll) */
+      @media (max-width: 767px) {
+        html, body {
+          height: 100%;
+          overflow: hidden;
+          -webkit-overflow-scrolling: auto;
+        }
+
+        .snap-container {
+          height: 100vh;
+          overflow-y: auto;
+          overflow-x: hidden;
+          -webkit-overflow-scrolling: touch;
+          scroll-snap-type: y mandatory;
+          overscroll-behavior-y: contain;
+        }
+
+        .snap-section {
+          min-height: 100vh;
+          height: 100vh;
+          scroll-snap-align: start;
+          scroll-snap-stop: always;
+          overflow: hidden;
+          padding-top: 64px;
+          padding-bottom: 16px;
+          justify-content: flex-start;
+          box-sizing: border-box;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+      }
+      
+      /* Small mobile optimizations */
+      @media (max-width: 640px) {
+        .snap-section {
+           padding-top: 50px;
+           padding-bottom: 15px;
+        }
+        
+        /* Reduce text sizes for very small screens */
+        .text-responsive {
+          font-size: clamp(0.75rem, 2vw, 1rem);
+        }
+      }
+
+      /* Custom scrollbar */
+      .snap-container::-webkit-scrollbar {
+        width: 4px;
+      }
+      .snap-container::-webkit-scrollbar-track {
+        background: #0A0A0F;
+      }
+      .snap-container::-webkit-scrollbar-thumb {
+        background: #00F7FF;
+        border-radius: 2px;
+      }
+
+      /* UNIFIED STYLES */
+      .glass-panel {
+        background: rgba(10, 10, 15, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      }
+
+      .tech-border {
+        position: relative;
+        border: 1px solid var(--border-color);
+      }
+      
+      .tech-border::before {
+        content: '';
+        position: absolute;
+        top: -1px; left: -1px;
+        width: 10px; height: 10px;
+        border-top: 2px solid var(--accent-cyan);
+        border-left: 2px solid var(--accent-cyan);
+      }
+      
+      .tech-border::after {
+        content: '';
+        position: absolute;
+        bottom: -1px; right: -1px;
+        width: 10px; height: 10px;
+        border-bottom: 2px solid var(--accent-cyan);
+        border-right: 2px solid var(--accent-cyan);
+      }
+
+      .glow-text {
+        text-shadow: 0 0 8px rgba(0, 247, 255, 0.6);
+      }
+
+      /* Noise Texture */
+      .noise-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.02; /* Reduced from 0.05 to reduce artifacting */
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      /* Holographic Surface Effect - BOOSTED VISIBILITY & MOBILE OPTIMIZED */
+      @keyframes holoShimmer {
+        0% { background-position: 200% 0; opacity: 0; }
+        10% { opacity: 0.8; }
+        90% { opacity: 0.8; }
+        100% { background-position: -200% 0; opacity: 0; }
+      }
+
+      .holo-overlay {
+        position: absolute;
+        inset: 0;
+        /* Using a harder gradient edge for more visible "sheen" */
+        background: linear-gradient(
+          115deg, 
+          transparent 20%, 
+          rgba(0, 247, 255, 0.4) 40%, 
+          rgba(255, 255, 255, 0.8) 50%, 
+          rgba(0, 247, 255, 0.4) 60%, 
+          transparent 80%
+        );
+        background-size: 200% 100%;
+        opacity: 0;
+        z-index: 30; /* Ensure it is above images but below text if possible, or use mix-blend-mode */
+        pointer-events: none;
+        mix-blend-mode: overlay; /* Makes it glow on dark backgrounds */
+        transition: opacity 0.3s;
+        /* Disable animation on mobile for performance */
+      }
+
+      @media (min-width: 768px) {
+        .group:hover .holo-overlay {
+          animation: holoShimmer 2s infinite linear;
+        }
+      }
+      
+      /* Mobile: reduce shimmer effects for better performance */
+      @media (max-width: 767px) {
+        .holo-overlay {
+          display: none; /* Completely disable on mobile */
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?deps=react@18.2.0",
+    "react-dom": "https://esm.sh/react-dom@18.2.0?deps=react@18.2.0",
+    "lucide-react": "https://esm.sh/lucide-react@0.344.0?deps=react@18.2.0",
+    "framer-motion": "https://esm.sh/framer-motion@10.18.0?deps=react@18.2.0,react-dom@18.2.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite": "https://esm.sh/vite@^7.3.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <div class="noise-overlay"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
