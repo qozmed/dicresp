@@ -1,4 +1,6 @@
-staticSites:
-  - name: digital-creative-space
+services:
+  - type: web
+    name: digital-creative-space
+    env: node
     buildCommand: npm install && npm run build
-    publishPath: dist
+    startCommand: npx serve -s dist -l $PORT
