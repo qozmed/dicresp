@@ -1,6 +1,4 @@
-services:
-  - type: web
-    name: digital-creative-space
-    env: static
+staticSites:
+  - name: digital-creative-space
     buildCommand: npm install && npm run build
-    staticPublishPath: ./dist
+    publishPath: dist
