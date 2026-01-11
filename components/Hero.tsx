@@ -45,9 +45,8 @@ const Hero: React.FC = () => {
       <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl pointer-events-auto mt-0 md:mt-0 -translate-y-8 sm:-translate-y-10 md:-translate-y-0">
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 100 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          viewport={{ once: false }}
         >
           
           <h1 className="font-edit-undo uppercase text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 tracking-normal md:tracking-wide leading-relaxed text-center">
@@ -70,14 +69,14 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-24 sm:bottom-20 md:bottom-13 lg:bottom-12. left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
+      <div className="absolute bottom-24 sm:bottom-20 md:bottom-64 lg:bottom-12 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
         <motion.div 
           className="flex flex-col items-center cursor-pointer group touch-manipulation"
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           onClick={handleScrollDown}
         >
-          <span className="text-[10px] sm:text-[12px] md:text-sm lg:text-base font-mono uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.3em] mb-4 text-cyan-500/80 group-hover:text-cyan-400 transition-colors text-center whitespace-nowrap">2025</span>
+          <span className="text-[10px] sm:text-[12px] md:text-sm lg:text-base font-mono uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.3em] mb-2 text-cyan-500/80 group-hover:text-cyan-400 transition-colors text-center whitespace-nowrap">2025</span>
           <ChevronDown className="text-cyan-400" size={24} />
         </motion.div>
       </div>
