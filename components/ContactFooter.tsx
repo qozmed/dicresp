@@ -1,5 +1,5 @@
 import React from 'react';
-import { Send, Globe, MessageSquare } from 'lucide-react';
+import { Send, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const ContactFooter: React.FC = () => {
@@ -24,10 +24,6 @@ const ContactFooter: React.FC = () => {
             </p>
             
             <div className="flex space-x-4 md:space-x-8 mb-4 lg:mb-0">
-               <a href="#" className="flex items-center space-x-2 text-gray-400 hover:text-cyan-400 transition-colors group">
-                   <Globe className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                   <span className="text-[10px] sm:text-xs md:text-sm font-mono group-hover:underline">GLOBAL_NET</span>
-               </a>
                <a href="#" className="flex items-center space-x-2 text-gray-400 hover:text-cyan-400 transition-colors group">
                    <MessageSquare className="w-4 h-4 md:w-[18px] md:h-[18px]" />
                    <span className="text-[10px] sm:text-xs md:text-sm font-mono group-hover:underline">DIRECT_LINK</span>

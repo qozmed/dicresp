@@ -533,7 +533,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
           <style>{`
             /* MAP FILTERS */
             .cosmic-map-container [class*="ymaps-"][class*="-ground-pane"] {
-                filter: grayscale(100%) invert(100%) sepia(100%) saturate(500%) hue-rotate(180deg) brightness(60%) contrast(120%);
+                filter: grayscale(100%) invert(100%) sepia(100%) saturate(700%) hue-rotate(180deg) brightness(115%) contrast(170%);
             }
             .cosmic-map-container [class*="ymaps-"][class*="-copyright"] {
                 filter: invert(100%) opacity(0.5);
