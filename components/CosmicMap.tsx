@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Project } from '../types';
-import { ArrowLeft, Layers, Crosshair, Copy, Check, X, Download, FileText, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Layers, Crosshair, Copy, Check, X, Download, FileText, ExternalLink, Play } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface CosmicMapProps {
@@ -25,6 +25,8 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
   const [previewFile, setPreviewFile] = useState<{ url: string; title: string } | null>(null);
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
 
+  // VIDEO PREVIEW STATE
+const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } | null>(null);
   // DEBUG STATE
   const [debugCenter, setDebugCenter] = useState<number[]>([0, 0]);
   const [debugZoom, setDebugZoom] = useState<number>(0);
@@ -66,7 +68,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
   // --- HANDLE BALLOON ACTIONS ---
   useEffect(() => {
     const handleBalloonAction = (e: CustomEvent) => {
-        const { actionId, iconCaption, description, fileUrl } = e.detail;
+        const { actionId, iconCaption, description, fileUrl, videoUrl } = e.detail;
         console.log("Balloon Button Clicked:", e.detail);
         
         if (actionId === 'reserve') {
@@ -79,6 +81,15 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
                 });
             } else {
                 alert(`Файл для скачивания не найден для объекта: ${iconCaption}`);
+            }
+        } else if (actionId === 'play_video') {
+            if (videoUrl) {
+                setVideoPreview({
+                    url: videoUrl,
+                    title: iconCaption || 'Видео презентация'
+                });
+            } else {
+                alert(`Видеофайл не найден: ${iconCaption}`);
             }
         } else if (actionId === 'view_3d') {
             alert(`Запуск 3D тура: ${iconCaption}`);
@@ -216,6 +227,9 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
                 <button class="cosmic-balloon-btn" id="action-btn">
                     $[properties.buttonText|default:Подробнее]
                 </button>
+                <button class="cosmic-balloon-btn video-btn" id="video-btn" style="display: $[properties.videoUrl|then:inline-block|else:none]; margin-left: 8px;">
+                     $[properties.videoButtonText|default:Смотреть видео]
+                </button>
             </div>
             <div class="plate-footer">
                 <div class="tech-lines"></div>
@@ -240,12 +254,34 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
                     // @ts-ignore
                     this._element.addEventListener('click', this._listener);
                 }
+
+                // Attach listener to Video Button
+                // @ts-ignore
+                this._videoElement = this.getParentElement().querySelector('#video-btn');
+                if (this._videoElement) {
+                     // @ts-ignore
+                     this._videoListener = (e) => {
+                         // @ts-ignore
+                         const properties = this.getData().properties.getAll();
+                         // Override actionId for video button
+                         const detail = { ...properties, actionId: 'play_video' };
+                         const event = new CustomEvent('cosmic-balloon-click', { detail });
+                         window.dispatchEvent(event);
+                     };
+                     // @ts-ignore
+                     this._videoElement.addEventListener('click', this._videoListener);
+                }
             },
             clear: function () {
                 // @ts-ignore
                 if (this._element && this._listener) {
                     // @ts-ignore
                     this._element.removeEventListener('click', this._listener);
+                }
+                // @ts-ignore
+                if (this._videoElement && this._videoListener) {
+                    // @ts-ignore
+                    this._videoElement.removeEventListener('click', this._videoListener);
                 }
                 // @ts-ignore
                 this.constructor.superclass.clear.call(this);
@@ -409,6 +445,60 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
              <span className="text-[10px] sm:text-xs text-gray-400 font-mono mt-1 text-right">{project.region}</span>
          </div>
       </div>
+
+      {/* VIDEO PREVIEW MODAL */}
+      <AnimatePresence>
+        {videoPreview && (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-0 md:p-4"
+                onClick={() => setVideoPreview(null)}
+            >
+                <motion.div
+                    initial={{ scale: 0.9, y: 20 }}
+                    animate={{ scale: 1, y: 0 }}
+                    exit={{ scale: 0.9, y: 20 }}
+                    className="relative w-full h-auto md:w-[90vw] md:max-w-[1200px] bg-[#0A0A0F] border border-cyan-500/50 shadow-[0_0_50px_rgba(0,247,255,0.15)] flex flex-col md:rounded-sm overflow-hidden"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {/* Header */}
+                    <div className="flex items-center justify-between p-3 sm:p-4 border-b border-white/10 bg-black/50 shrink-0">
+                        <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 rounded bg-cyan-900/30 flex items-center justify-center text-cyan-400 border border-cyan-500/30 animate-pulse">
+                                <Play size={16} fill="currentColor" />
+                            </div>
+                            <div className="max-w-[150px] sm:max-w-md overflow-hidden">
+                                <h3 className="text-white font-mono text-xs md:text-sm uppercase tracking-wider truncate">{videoPreview.title}</h3>
+                                <span className="text-[10px] text-gray-400 font-mono uppercase">SECURE VIDEO FEED</span>
+                            </div>
+                        </div>
+                        <button 
+                            onClick={() => setVideoPreview(null)}
+                            className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-900/20 rounded transition-colors"
+                        >
+                            <X size={20} />
+                        </button>
+                    </div>
+
+                    {/* Video Player */}
+                    <div className="relative bg-black aspect-video flex items-center justify-center">
+                        <video 
+                            controls 
+                            autoPlay 
+                            playsInline
+                            preload="auto"
+                            className="w-full h-full max-h-[80vh] object-contain"
+                            src={videoPreview.url}
+                        >
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
+                </motion.div>
+            </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* PDF PREVIEW MODAL */}
       <AnimatePresence>
@@ -738,6 +828,17 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
             }
             .cosmic-balloon-btn:active {
                 transform: translateY(1px);
+            }
+             /* VIDEO BUTTON SPECIFIC STYLE */
+            .video-btn {
+                background: rgba(0, 247, 255, 0.1);
+                border-color: rgba(0, 247, 255, 0.5);
+                color: #00F7FF;
+            }
+            .video-btn:hover {
+                background: rgba(255, 0, 100, 0.3);
+                box-shadow: 0 0 10px rgba(255, 0, 100, 0.4);
+                color: white;
             }
             .plate-footer {
                 display: flex;
