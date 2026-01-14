@@ -227,9 +227,11 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                 <button class="cosmic-balloon-btn" id="action-btn">
                     $[properties.buttonText|default:Подробнее]
                 </button>
-                <button class="cosmic-balloon-btn video-btn" id="video-btn" style="display: $[properties.videoUrl|then:inline-block|else:none]; margin-left: 8px;">
+                {% if properties.videoUrl %}
+                <button class="cosmic-balloon-btn video-btn" id="video-btn" style="margin-left: 8px;">
                      $[properties.videoButtonText|default:Смотреть видео]
                 </button>
+                {% endif %}
             </div>
             <div class="plate-footer">
                 <div class="tech-lines"></div>
