@@ -836,8 +836,8 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                 color: #00F7FF;
             }
             .video-btn:hover {
-                background: rgba(255, 0, 100, 0.3);
-                box-shadow: 0 0 10px rgba(255, 0, 100, 0.4);
+                background: rgba(0, 247, 255, 0.3);
+                box-shadow: 0 0 10px rgba(0, 247, 255, 0.4);
                 color: white;
             }
             .plate-footer {
