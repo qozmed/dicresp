@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Project } from '../types';
-import { ArrowLeft, Layers, Crosshair, Copy, Check, X, Download, FileText, ExternalLink, Play } from 'lucide-react';
+import { ArrowLeft, Layers, Crosshair, Copy, Check, X, Download, FileText, ExternalLink, Play, Image as ImageIcon, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface CosmicMapProps {
@@ -27,6 +27,12 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
 
   // VIDEO PREVIEW STATE
 const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } | null>(null);
+
+// PHOTO GALLERY STATE
+  const [photoGallery, setPhotoGallery] = useState<{ urls: string[]; title: string } | null>(null);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [photoZoom, setPhotoZoom] = useState(1);
+
   // DEBUG STATE
   const [debugCenter, setDebugCenter] = useState<number[]>([0, 0]);
   const [debugZoom, setDebugZoom] = useState<number>(0);
@@ -65,10 +71,29 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
     }
   }, [previewFile]);
 
+  // Gallery Helpers
+  const nextPhoto = (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      if (!photoGallery) return;
+      setCurrentPhotoIndex((prev) => (prev + 1) % photoGallery.urls.length);
+      setPhotoZoom(1); // Reset zoom on slide change
+  };
+
+  const prevPhoto = (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      if (!photoGallery) return;
+      setCurrentPhotoIndex((prev) => (prev - 1 + photoGallery.urls.length) % photoGallery.urls.length);
+      setPhotoZoom(1);
+  };
+
+  const handleZoom = (delta: number) => {
+      setPhotoZoom(prev => Math.min(Math.max(1, prev + delta), 3));
+  };
+
   // --- HANDLE BALLOON ACTIONS ---
   useEffect(() => {
     const handleBalloonAction = (e: CustomEvent) => {
-        const { actionId, iconCaption, description, fileUrl, videoUrl } = e.detail;
+        const { actionId, iconCaption, description, fileUrl, videoUrl, photoUrls } = e.detail;
         console.log("Balloon Button Clicked:", e.detail);
         
         if (actionId === 'reserve') {
@@ -90,6 +115,25 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                 });
             } else {
                 alert(`Видеофайл не найден: ${iconCaption}`);
+            }
+        } else if (actionId === 'view_photos') {
+            // Check if photoUrls exists and ensure it's an array
+            let urls: string[] = [];
+            if (Array.isArray(photoUrls)) {
+                urls = photoUrls;
+            } else if (typeof photoUrls === 'string') {
+                urls = [photoUrls];
+            }
+
+            if (urls.length > 0) {
+                setPhotoGallery({
+                    urls: urls,
+                    title: iconCaption || 'Фотогалерея'
+                });
+                setCurrentPhotoIndex(0);
+                setPhotoZoom(1);
+            } else {
+                alert(`Фотографии не найдены: ${iconCaption}`);
             }
         } else if (actionId === 'view_3d') {
             alert(`Запуск 3D тура: ${iconCaption}`);
@@ -227,9 +271,16 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                 <button class="cosmic-balloon-btn" id="action-btn">
                     $[properties.buttonText|default:Подробнее]
                 </button>
+
                 {% if properties.videoUrl %}
                 <button class="cosmic-balloon-btn video-btn" id="video-btn" style="margin-left: 8px;">
                      $[properties.videoButtonText|default:Смотреть видео]
+                </button>
+                {% endif %}
+
+                {% if properties.photoUrls %}
+                <button class="cosmic-balloon-btn photo-btn" id="photo-btn" style="margin-left: 8px;">
+                     $[properties.photoButtonText|default:Фото]
                 </button>
                 {% endif %}
             </div>
@@ -273,18 +324,30 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                      // @ts-ignore
                      this._videoElement.addEventListener('click', this._videoListener);
                 }
+                // Attach listener to Photo Button
+                // @ts-ignore
+                this._photoElement = this.getParentElement().querySelector('#photo-btn');
+                if (this._photoElement) {
+                     // @ts-ignore
+                     this._photoListener = (e) => {
+                         // @ts-ignore
+                         const properties = this.getData().properties.getAll();
+                         const detail = { ...properties, actionId: 'view_photos' };
+                         const event = new CustomEvent('cosmic-balloon-click', { detail });
+                         window.dispatchEvent(event);
+                     };
+                     // @ts-ignore
+                     this._photoElement.addEventListener('click', this._photoListener);
+                }
             },
             clear: function () {
                 // @ts-ignore
-                if (this._element && this._listener) {
-                    // @ts-ignore
-                    this._element.removeEventListener('click', this._listener);
-                }
+                if (this._element && this._listener) this._element.removeEventListener('click', this._listener);
                 // @ts-ignore
-                if (this._videoElement && this._videoListener) {
-                    // @ts-ignore
-                    this._videoElement.removeEventListener('click', this._videoListener);
-                }
+                if (this._videoElement && this._videoListener) this._videoElement.removeEventListener('click', this._videoListener);
+                // @ts-ignore
+                if (this._photoElement && this._photoListener) this._photoElement.removeEventListener('click', this._photoListener);
+                
                 // @ts-ignore
                 this.constructor.superclass.clear.call(this);
             }
@@ -498,6 +561,99 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                         </video>
                     </div>
                 </motion.div>
+            </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* PHOTO GALLERY MODAL */}
+      <AnimatePresence>
+        {photoGallery && (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-0"
+                onClick={() => setPhotoGallery(null)}
+            >
+                {/* Close Button */}
+                <button 
+                    onClick={() => setPhotoGallery(null)}
+                    className="absolute top-4 right-4 z-[110] p-2 bg-black/50 hover:bg-red-900/50 rounded-full text-white/70 hover:text-white border border-white/10 transition-colors"
+                >
+                    <X size={24} />
+                </button>
+
+                {/* Toolbar */}
+                <div 
+                    className="absolute top-4 left-4 z-[110] flex space-x-2"
+                    onClick={e => e.stopPropagation()}
+                >
+                    <button onClick={() => handleZoom(0.5)} className="p-2 bg-black/50 rounded-full text-white/70 hover:text-cyan-400 border border-white/10 hover:border-cyan-500/50 transition-colors">
+                        <ZoomIn size={20} />
+                    </button>
+                    <button onClick={() => handleZoom(-0.5)} className="p-2 bg-black/50 rounded-full text-white/70 hover:text-cyan-400 border border-white/10 hover:border-cyan-500/50 transition-colors">
+                        <ZoomOut size={20} />
+                    </button>
+                </div>
+
+                {/* Main Content */}
+                <div 
+                    className="relative w-full h-full flex flex-col justify-center items-center overflow-hidden"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {/* Header Info */}
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[110] bg-black/70 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                        <span className="text-white font-mono text-xs flex items-center space-x-2">
+                            <ImageIcon size={14} className="text-purple-400" />
+                            <span>{currentPhotoIndex + 1} / {photoGallery.urls.length}</span>
+                            <span className="text-gray-400 border-l border-white/20 pl-2 ml-2">{photoGallery.title}</span>
+                        </span>
+                    </div>
+
+                    {/* Image Container */}
+                    <div className="relative w-full h-full flex items-center justify-center p-4">
+                        <motion.img 
+                            key={currentPhotoIndex}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: photoZoom }}
+                            transition={{ duration: 0.3 }}
+                            src={photoGallery.urls[currentPhotoIndex]}
+                            alt={photoGallery.title}
+                            className="max-w-full max-h-full object-contain shadow-2xl"
+                            drag
+                            dragConstraints={{ left: -500, right: 500, top: -500, bottom: 500 }}
+                        />
+                    </div>
+
+                    {/* Nav Arrows */}
+                    {photoGallery.urls.length > 1 && (
+                        <>
+                            <button 
+                                onClick={prevPhoto} 
+                                className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/30 hover:bg-purple-900/50 text-white/70 hover:text-white rounded-full backdrop-blur-sm transition-all z-[110]"
+                            >
+                                <ChevronLeft size={32} />
+                            </button>
+                            <button 
+                                onClick={nextPhoto} 
+                                className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/30 hover:bg-purple-900/50 text-white/70 hover:text-white rounded-full backdrop-blur-sm transition-all z-[110]"
+                            >
+                                <ChevronRight size={32} />
+                            </button>
+                            
+                            {/* Dots */}
+                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-[110]">
+                                {photoGallery.urls.map((_, idx) => (
+                                    <button 
+                                        key={idx}
+                                        onClick={(e) => { e.stopPropagation(); setCurrentPhotoIndex(idx); setPhotoZoom(1); }}
+                                        className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentPhotoIndex ? 'w-6 bg-purple-500' : 'w-2 bg-white/30 hover:bg-white/60'}`}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
             </motion.div>
         )}
       </AnimatePresence>
@@ -838,6 +994,17 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                 color: #00F7FF;
             }
             .video-btn:hover {
+                background: rgba(0, 247, 255, 0.3);
+                box-shadow: 0 0 10px rgba(0, 247, 255, 0.4);
+                color: white;
+            }
+             /* PHOTO BUTTON SPECIFIC STYLE */
+            .photo-btn {
+                background: rgba(0, 247, 255, 0.1);
+                border-color: rgba(0, 247, 255, 0.5);
+                color: #00F7FF;
+            }
+            .photo-btn:hover {
                 background: rgba(0, 247, 255, 0.3);
                 box-shadow: 0 0 10px rgba(0, 247, 255, 0.4);
                 color: white;

@@ -635,7 +635,11 @@ export const PROJECTS: Project[] = [
                 "marker-color": "#ed4543",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/ggr.pdf"
+                "fileUrl": "/semiluki.pdf",
+                "photoUrls": [
+                    "https://i.ibb.co/VcT9RK3k/semiluki.jpg"
+                ],
+                "photoButtonText": "Фото Проекта"
             }
         }
     ]
@@ -2166,7 +2170,9 @@ export const PROJECTS: Project[] = [
                 "description": "Кадастровые номера:<br>67:03:0030101:647<br>67:03:0030101:048<br>67:03:0030101:650<br>67:03:0030101:651<br>67:03:0030101:652<br>67:03:0030101:2250<br>67:03:0030101:6223<br>67:03:0030101:2245<br>67:03:0030101:6221<br>67:03:0030101:6222<br>67:03:0030101:2254<br>67:03:0030101:6219<br>67:03:0030101:6220<br>67:03:0030101:2263<br>67:03:0030101:658<br>67:03:0030101:2265<br>67:03:0030101:4980 Лес<br>67:03.0030101:5958 Лес<br>67:03:0030101:4980 Лес",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/ggddpu.pdf"
+                "fileUrl": "/sputnik.pdf",
+                "videoUrl": "/sputnik.mp4",
+                "videoButtonText": "Видео презентация"
             }
         }
     ]
