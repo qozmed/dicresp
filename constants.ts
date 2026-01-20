@@ -478,7 +478,7 @@ export const PROJECTS: Project[] = [
                 "marker-color": "#ed4543",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/gggg.pdf"
+                "fileUrl": "/goretovo.pdf"
             }
         },
         {
