@@ -26,9 +26,9 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
 
   // VIDEO PREVIEW STATE
-const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } | null>(null);
+  const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } | null>(null);
 
-// PHOTO GALLERY STATE
+  // PHOTO GALLERY STATE
   const [photoGallery, setPhotoGallery] = useState<{ urls: string[]; title: string } | null>(null);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [photoZoom, setPhotoZoom] = useState(1);
@@ -61,7 +61,7 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
   useEffect(() => {
     if (previewFile) {
         setIsLoadingPreview(true);
-        // Safety timeout: ensure loading text disappears after 3 seconds even if onLoad doesn't trigger
+        // Safety timeout
         const timer = setTimeout(() => {
             setIsLoadingPreview(false);
         }, 3000);
@@ -191,7 +191,7 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
           const xi = vs[i][0], yi = vs[i][1];
           const xj = vs[j][0], yj = vs[j][1];
           const intersect = ((yi > y) !== (yj > y))
-              && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+              && (x < (xj - xi) * (y - yi) + xi);
           if (intersect) inside = !inside;
       }
       return inside;
@@ -257,6 +257,7 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
         </div>
     `);
 
+    // --- IMPROVED BALLOON LAYOUT WITH JS LOGIC ---
     const customBalloonContentLayout = ymaps.templateLayoutFactory.createClass(
         `
         <div class="cosmic-plate">
@@ -268,22 +269,33 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                 $[properties.description|default:Нет описания]
             </div>
             <div class="plate-actions">
+                <!-- PRIMARY BUTTON (Single file fallback) -->
                 <button class="cosmic-balloon-btn" id="action-btn">
                     $[properties.buttonText|default:Подробнее]
                 </button>
-
-                {% if properties.videoUrl %}
-                <button class="cosmic-balloon-btn video-btn" id="video-btn" style="margin-left: 8px;">
-                     $[properties.videoButtonText|default:Смотреть видео]
+                
+                <!-- VIDEO BUTTON -->
+                <button class="cosmic-balloon-btn video-btn" id="video-btn" style="display: none; margin-left: 8px;">
+                     $[properties.videoButtonText|default:Видео]
                 </button>
-                {% endif %}
 
-                {% if properties.photoUrls %}
-                <button class="cosmic-balloon-btn photo-btn" id="photo-btn" style="margin-left: 8px;">
+                <!-- PHOTO BUTTON -->
+                <button class="cosmic-balloon-btn photo-btn" id="photo-btn" style="display: none; margin-left: 8px;">
                      $[properties.photoButtonText|default:Фото]
                 </button>
-                {% endif %}
             </div>
+            
+            <!-- MULTIPLE DOCUMENTS CONTAINER -->
+            <div id="additional-docs-container" style="display: none; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-bottom: 8px; margin-top: 8px; border-top: 1px dashed rgba(0,247,255,0.2); padding-top: 8px;">
+                 {% if properties.documents %}
+                    {% for doc in properties.documents %}
+                        <button class="cosmic-balloon-btn doc-btn" data-file-url="$[doc.url]" data-caption="$[doc.label]">
+                            $[doc.label]
+                        </button>
+                    {% endfor %}
+                 {% endif %}
+            </div>
+
             <div class="plate-footer">
                 <div class="tech-lines"></div>
                 <span class="scan-text">TARGET_LOCKED</span>
@@ -294,13 +306,21 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
             build: function () {
                 // @ts-ignore
                 this.constructor.superclass.build.call(this);
+                
+                // Get the data properties from the model
+                // @ts-ignore
+                const properties = this.getData().properties.getAll();
+
+                // 1. MAIN BUTTON (Single Action)
                 // @ts-ignore
                 this._element = this.getParentElement().querySelector('#action-btn');
                 if (this._element) {
+                    if (!properties.fileUrl && !properties.documents) {
+                       // Hide default button if no files at all, or just let it trigger alert
+                    }
+                    
                     // @ts-ignore
-                    this._listener = (e) => {
-                        // @ts-ignore
-                        const properties = this.getData().properties.getAll();
+                    this._listener = () => {
                         const event = new CustomEvent('cosmic-balloon-click', { detail: properties });
                         window.dispatchEvent(event);
                     };
@@ -308,36 +328,74 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                     this._element.addEventListener('click', this._listener);
                 }
 
-                // Attach listener to Video Button
+                // 2. VIDEO BUTTON - Programmatic visibility check
                 // @ts-ignore
                 this._videoElement = this.getParentElement().querySelector('#video-btn');
                 if (this._videoElement) {
-                     // @ts-ignore
-                     this._videoListener = (e) => {
-                         // @ts-ignore
-                         const properties = this.getData().properties.getAll();
-                         // Override actionId for video button
-                         const detail = { ...properties, actionId: 'play_video' };
-                         const event = new CustomEvent('cosmic-balloon-click', { detail });
-                         window.dispatchEvent(event);
-                     };
-                     // @ts-ignore
-                     this._videoElement.addEventListener('click', this._videoListener);
+                     if (properties.videoUrl) {
+                        // @ts-ignore
+                        this._videoElement.style.display = 'inline-block';
+                        // @ts-ignore
+                        this._videoListener = () => {
+                             const detail = { ...properties, actionId: 'play_video' };
+                             const event = new CustomEvent('cosmic-balloon-click', { detail });
+                             window.dispatchEvent(event);
+                        };
+                        // @ts-ignore
+                        this._videoElement.addEventListener('click', this._videoListener);
+                     }
                 }
-                // Attach listener to Photo Button
+
+                // 3. PHOTO BUTTON - Programmatic visibility check
                 // @ts-ignore
                 this._photoElement = this.getParentElement().querySelector('#photo-btn');
                 if (this._photoElement) {
+                     // Check if photoUrls exists and is a non-empty array
+                     const hasPhotos = properties.photoUrls && 
+                                       Array.isArray(properties.photoUrls) && 
+                                       properties.photoUrls.length > 0;
+                     
+                     if (hasPhotos) {
+                        // @ts-ignore
+                        this._photoElement.style.display = 'inline-block';
+                        // @ts-ignore
+                        this._photoListener = () => {
+                             const detail = { ...properties, actionId: 'view_photos' };
+                             const event = new CustomEvent('cosmic-balloon-click', { detail });
+                             window.dispatchEvent(event);
+                        };
+                        // @ts-ignore
+                        this._photoElement.addEventListener('click', this._photoListener);
+                     }
+                }
+
+                // 4. MULTIPLE DOCUMENTS
+                // @ts-ignore
+                const docsContainer = this.getParentElement().querySelector('#additional-docs-container');
+                if (docsContainer && properties.documents && Array.isArray(properties.documents) && properties.documents.length > 0) {
+                     docsContainer.style.display = 'flex';
+                     
+                     // Attach listeners to all dynamic buttons inside
                      // @ts-ignore
-                     this._photoListener = (e) => {
-                         // @ts-ignore
-                         const properties = this.getData().properties.getAll();
-                         const detail = { ...properties, actionId: 'view_photos' };
-                         const event = new CustomEvent('cosmic-balloon-click', { detail });
-                         window.dispatchEvent(event);
+                     this._docButtons = docsContainer.querySelectorAll('.doc-btn');
+                     // @ts-ignore
+                     this._docListener = (e) => {
+                        const target = e.currentTarget;
+                        const fileUrl = target.getAttribute('data-file-url');
+                        const iconCaption = target.getAttribute('data-caption');
+                        
+                        const detail = { 
+                            ...properties, 
+                            actionId: 'download_plan', // Reuse download logic
+                            fileUrl: fileUrl,
+                            iconCaption: iconCaption 
+                        };
+                        const event = new CustomEvent('cosmic-balloon-click', { detail });
+                        window.dispatchEvent(event);
                      };
+
                      // @ts-ignore
-                     this._photoElement.addEventListener('click', this._photoListener);
+                     this._docButtons.forEach(btn => btn.addEventListener('click', this._docListener));
                 }
             },
             clear: function () {
@@ -348,6 +406,13 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                 // @ts-ignore
                 if (this._photoElement && this._photoListener) this._photoElement.removeEventListener('click', this._photoListener);
                 
+                // Clean up doc buttons
+                // @ts-ignore
+                if (this._docButtons) {
+                    // @ts-ignore
+                    this._docButtons.forEach(btn => btn.removeEventListener('click', this._docListener));
+                }
+
                 // @ts-ignore
                 this.constructor.superclass.clear.call(this);
             }
@@ -781,7 +846,7 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
           <style>{`
             /* MAP FILTERS */
             .cosmic-map-container [class*="ymaps-"][class*="-ground-pane"] {
-                filter: grayscale(100%) invert(100%) sepia(100%) saturate(700%) hue-rotate(180deg) brightness(115%) contrast(170%);
+                filter: grayscale(100%) invert(100%) sepia(100%) saturate(700%) hue-rotate(180deg) brightness(115%) contrast(160%);
             }
             .cosmic-map-container [class*="ymaps-"][class*="-copyright"] {
                 filter: invert(100%) opacity(0.5);
@@ -987,7 +1052,7 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
             .cosmic-balloon-btn:active {
                 transform: translateY(1px);
             }
-             /* VIDEO BUTTON SPECIFIC STYLE */
+            /* VIDEO BUTTON SPECIFIC STYLE */
             .video-btn {
                 background: rgba(0, 247, 255, 0.1);
                 border-color: rgba(0, 247, 255, 0.5);
@@ -998,17 +1063,18 @@ const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } 
                 box-shadow: 0 0 10px rgba(0, 247, 255, 0.4);
                 color: white;
             }
-             /* PHOTO BUTTON SPECIFIC STYLE */
+            /* PHOTO BUTTON SPECIFIC STYLE */
             .photo-btn {
                 background: rgba(0, 247, 255, 0.1);
                 border-color: rgba(0, 247, 255, 0.5);
                 color: #00F7FF;
             }
             .photo-btn:hover {
-                background: rgba(0, 247, 255, 0.3);
+                background: rgba(0, 247, 255, 0.1);
                 box-shadow: 0 0 10px rgba(0, 247, 255, 0.4);
                 color: white;
             }
+            
             .plate-footer {
                 display: flex;
                 justify-content: space-between;
