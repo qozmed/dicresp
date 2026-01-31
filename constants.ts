@@ -555,11 +555,9 @@ export const PROJECTS: Project[] = [
     region: 'Семилукский р-н',
     status: 'completed',
     description: 'Футуристическая зона отдыха на побережье. Полная энергонезависимость обеспечивается передовыми солнечными панелями и ветрогенераторами нового типа. Интерьеры вдохновлены морской пеной и космическими кораблями.',
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2400&auto=format&fit=crop',
+    image: 'https://i.ibb.co/VcT9RK3k/semiluki.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2400&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1479839672679-a455b1c095c6?q=80&w=2400&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2400&auto=format&fit=crop'
+      'https://i.ibb.co/VcT9RK3k/semiluki.jpg'
     ],
     coordinates: { x: 60, y: 80 },
     geoCoordinates: [51.638340, 38.850153],
@@ -635,11 +633,7 @@ export const PROJECTS: Project[] = [
                 "marker-color": "#ed4543",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/semiluki.pdf",
-                "photoUrls": [
-                    "https://i.ibb.co/VcT9RK3k/semiluki.jpg"
-                ],
-                "photoButtonText": "Фото Проекта"
+                "fileUrl": "/semiluki.pdf"
             }
         }
     ]
