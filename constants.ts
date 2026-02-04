@@ -8,11 +8,9 @@ export const PROJECTS: Project[] = [
     region: 'Можайский р-н',
     status: 'completed',
     description: 'Элитный поселок, интегрированный в природный ландшафт с использованием технологий умного дома. Архитектура комплекса повторяет естественные изгибы рельефа, создавая ощущение полной гармонии с природой. Каждая резиденция оснащена системой биодинамического освещения.',
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2400&auto=format&fit=crop',
+    image: 'https://i.ibb.co/PzQNRFfj/photo-2026-02-04-19-04-25.jpg',
     gallery: [
-      '',
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2400&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?q=80&w=2400&auto=format&fit=crop'
+      'https://i.ibb.co/PzQNRFfj/photo-2026-02-04-19-04-25.jpg'
     ],
     coordinates: { x: 30, y: 40 },
     geoCoordinates: [55.649629, 35.775100],
@@ -652,11 +650,9 @@ export const PROJECTS: Project[] = [
     region: 'Гагаринский р-н',
     status: 'completed',
     description: 'Уединенные резиденции в сердце северного леса. Максимальная приватность и тишина. Конструкции домов подняты над землей, чтобы сохранить экосистему мха и ягодников. Панорамное остекление стирает границы между домом и лесом.',
-    image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=2400&auto=format&fit=crop',
+    image: 'https://i.ibb.co/kVd4Pqmd/photo-2026-02-04-19-04-30.jpg',
     gallery: [
-       'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=2400&auto=format&fit=crop',
-       'https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2400&auto=format&fit=crop',
-       'https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=2400&auto=format&fit=crop'
+       'https://i.ibb.co/kVd4Pqmd/photo-2026-02-04-19-04-30.jpg'
     ],
     coordinates: { x: 45, y: 20 },
     geoCoordinates: [61.7849, 34.3469],
@@ -2067,7 +2063,7 @@ export const PROJECTS: Project[] = [
                 "description": "Проект «Созвездие».<br>Общая площадь 1798 Га",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/ggrf.pdf",
+                "fileUrl": "/sozvezdie.pdf",
                 "videoUrl": "/sozvezdie.mp4",
                 "videoButtonText": "Видео презентация"
             }
