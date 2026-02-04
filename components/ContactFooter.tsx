@@ -1,8 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Send, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const ContactFooter: React.FC = () => {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [submitState, setSubmitState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitState('sending');
+    setSubmitError(null);
+
+    try {
+      const base = import.meta.env.VITE_CONTACT_API_URL as string | undefined;
+      if (!base && !import.meta.env.DEV) {
+        throw new Error('CONTACT_API_NOT_CONFIGURED');
+      }
+      const endpoint = base ? `${base.replace(/\/$/, '')}/api/contact` : '/api/contact';
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          message,
+        }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text().catch(() => '');
+        throw new Error(text || `Request failed: ${res.status}`);
+      }
+
+      setSubmitState('sent');
+      setName('');
+      setPhone('');
+      setEmail('');
+      setMessage('');
+    } catch (err) {
+      setSubmitState('error');
+      setSubmitError(err instanceof Error ? err.message : String(err));
+    }
+  };
+
   return (
     <section className="relative w-full h-full flex items-start md:items-center overflow-hidden pointer-events-none py-6 md:py-0">
       <div className="container mx-auto px-4 md:px-6 relative z-10 pointer-events-auto">
@@ -47,13 +95,15 @@ const ContactFooter: React.FC = () => {
                 COMMS_CHANNEL
             </h3>
 
-            <form className="space-y-2 md:space-y-6">
+            <form className="space-y-2 md:space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-6">
                 <div className="group">
                     <label className="text-[9px] md:text-xs text-cyan-400 font-mono uppercase mb-1 block tracking-wider">Identity</label>
                     <input 
                     type="text" 
                     placeholder="Имя" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     className="w-full bg-[#050508]/70 border border-white/20 rounded-none px-2 py-2 md:px-4 md:py-4 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:bg-[#0A0A0F] transition-colors font-mono text-xs sm:text-sm min-h-[40px]"
                     />
                 </div>
@@ -62,6 +112,8 @@ const ContactFooter: React.FC = () => {
                     <input 
                     type="tel" 
                     placeholder="Телефон" 
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                     className="w-full bg-[#050508]/70 border border-white/20 rounded-none px-2 py-2 md:px-4 md:py-4 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:bg-[#0A0A0F] transition-colors font-mono text-xs sm:text-sm min-h-[40px]"
                     />
                 </div>
@@ -72,6 +124,8 @@ const ContactFooter: React.FC = () => {
                  <input 
                     type="email" 
                     placeholder="Email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-[#050508]/70 border border-white/20 rounded-none px-2 py-2 md:px-4 md:py-4 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:bg-[#0A0A0F] transition-colors font-mono text-xs sm:text-sm min-h-[40px]"
                  />
               </div>
@@ -81,14 +135,31 @@ const ContactFooter: React.FC = () => {
                  <textarea 
                     rows={3} 
                     placeholder="Сообщение..." 
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                     className="w-full bg-[#050508]/70 border border-white/20 rounded-none px-2 py-2 md:px-4 md:py-4 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:bg-[#0A0A0F] transition-colors font-mono text-xs sm:text-sm resize-none"
                  ></textarea>
               </div>
 
-              <button className="w-full bg-cyan-900/30 border border-cyan-500/50 text-cyan-400 font-mono font-bold py-2 md:py-4 uppercase tracking-[0.15em] hover:bg-cyan-500 hover:text-black transition-all group flex items-center justify-center space-x-2 text-[9px] sm:text-xs md:text-sm shadow-[0_0_15px_rgba(0,247,255,0.1)] min-h-[44px]">
+              <button
+                className="w-full bg-cyan-900/30 border border-cyan-500/50 text-cyan-400 font-mono font-bold py-2 md:py-4 uppercase tracking-[0.15em] hover:bg-cyan-500 hover:text-black transition-all group flex items-center justify-center space-x-2 text-[9px] sm:text-xs md:text-sm shadow-[0_0_15px_rgba(0,247,255,0.1)] min-h-[44px]"
+                disabled={submitState === 'sending'}
+                type="submit"
+              >
                 <span>Отправить данные</span>
                 <Send size={16} className="transform group-hover:translate-x-1 transition-transform"/>
               </button>
+
+              {submitState === 'sent' && (
+                <div className="text-[10px] md:text-xs text-green-400 font-mono uppercase tracking-widest">
+                  Данные отправлены
+                </div>
+              )}
+              {submitState === 'error' && (
+                <div className="text-[10px] md:text-xs text-red-400 font-mono uppercase tracking-widest break-words">
+                  Ошибка отправки{submitError ? `: ${submitError}` : ''}
+                </div>
+              )}
             </form>
           </motion.div>
         </div>
