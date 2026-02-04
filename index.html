@@ -11,10 +11,10 @@
     <link href="https://fonts.cdnfonts.com/css/edit-undo-brk" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/serif-dot-digital-7" rel="stylesheet">
     
-    <!-- NEW: Tektur for legible technical small text (Supports Cyrillic) -->
+    <!-- Orbitron (Digital Display) & Tektur (Tech UI) - Both support Cyrillic -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Tektur:wght@400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <style>
       :root {
@@ -28,6 +28,8 @@
         --font-main: 'Serif Dot Digital-7', 'Digital-7', monospace;      
         --font-special: 'Edit Undo Dot BRK', 'Edit Undo BRK', monospace;
         --font-tech: 'Tektur', monospace; /* New legible tech font */
+        /* Updated font-lcd to use Orbitron - Guaranteed Cyrillic Tech look */
+        --font-lcd: 'Orbitron', 'Share Tech Mono', monospace;
       }
 
       body {
@@ -75,6 +77,13 @@
       /* CRITICAL FIX: Pixel fonts (Main & Special) must NEVER be bold */
       .font-display, .font-edit-undo, h1, h2, h3, h4, h5, h6, b, strong {
         font-weight: 400 !important; 
+      }
+      
+      /* Orbitron looks better with weight allowed */
+      .font-lcd {
+         font-family: var(--font-lcd) !important;
+         font-weight: 500 !important; /* Slightly bolder for visibility */
+         letter-spacing: 0.1em;
       }
 
       /* Force the special font class */
@@ -280,6 +289,19 @@
         }
       }
     </style>
+  <script type="importmap">
+{
+  "imports": {
+    "framer-motion": "https://esm.sh/framer-motion@^12.31.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.3"
+  }
+}
+</script>
 </head>
   <body>
     <div id="root">
