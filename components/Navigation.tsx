@@ -58,8 +58,19 @@ const Navigation: React.FC<NavigationProps> = ({ onLogoClick }) => {
           className="group cursor-pointer relative z-50"
         >
           <img 
-            src="https://i.ibb.co/5xSX5FnV/LOGO-DCS.png" 
+            src="/images/logo.png" 
             alt="Logo" 
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src =
+                'data:image/svg+xml;charset=utf-8,' +
+                encodeURIComponent(
+                  '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="96" viewBox="0 0 256 96"><rect width="256" height="96" fill="#050508"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#00F7FF" font-family="monospace" font-size="18">DCS</text></svg>'
+                );
+            }}
             className="h-8 md:h-12 w-auto object-contain drop-shadow-[0_0_8px_rgba(0,247,255,0.5)] brightness-0 invert hover:brightness-100 hover:invert-0 hover:drop-shadow-[0_0_12px_rgba(0,247,255,0.8)] transition-all duration-300"
           />
         </a>

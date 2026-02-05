@@ -87,6 +87,16 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onClose, onOpenM
                 <img 
                     src={images[currentImageIndex]} 
                     alt={`${project.title} view ${currentImageIndex + 1}`} 
+                    loading="eager"
+                    decoding="async"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src =
+                        'data:image/svg+xml;charset=utf-8,' +
+                        encodeURIComponent(
+                          '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#050508"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#00F7FF" font-family="monospace" font-size="28">IMAGE UNAVAILABLE</text></svg>'
+                        );
+                    }}
                     className="w-full h-full object-cover opacity-90"
                 />
             </motion.div>

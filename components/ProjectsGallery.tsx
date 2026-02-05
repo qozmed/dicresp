@@ -62,6 +62,16 @@ const ProjectsGallery: React.FC<ProjectsGalleryProps> = ({ onSelectProject, onOp
                 <img 
                     src={project.image} 
                     alt={project.title} 
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src =
+                        'data:image/svg+xml;charset=utf-8,' +
+                        encodeURIComponent(
+                          '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#050508"/><stop offset="1" stop-color="#0A0A0F"/></linearGradient></defs><rect width="1200" height="800" fill="url(#g)"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#00F7FF" font-family="monospace" font-size="28">IMAGE UNAVAILABLE</text></svg>'
+                        );
+                    }}
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/60 to-transparent opacity-100 group-hover:opacity-80 transition-opacity duration-500"></div>
@@ -151,6 +161,16 @@ const ProjectsGallery: React.FC<ProjectsGalleryProps> = ({ onSelectProject, onOp
                 <img 
                     src={project.image} 
                     alt={project.title} 
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src =
+                        'data:image/svg+xml;charset=utf-8,' +
+                        encodeURIComponent(
+                          '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#050508"/><stop offset="1" stop-color="#0A0A0F"/></linearGradient></defs><rect width="1200" height="800" fill="url(#g)"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#00F7FF" font-family="monospace" font-size="28">IMAGE UNAVAILABLE</text></svg>'
+                        );
+                    }}
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/60 to-transparent opacity-100 group-hover:opacity-80 transition-opacity duration-500"></div>

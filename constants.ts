@@ -7,10 +7,10 @@ export const PROJECTS: Project[] = [
     title: 'Московская Область',
     region: 'Можайский р-н',
     status: 'completed',
-    description: 'Элитный поселок, интегрированный в природный ландшафт с использованием технологий умного дома. Архитектура комплекса повторяет естественные изгибы рельефа, создавая ощущение полной гармонии с природой. Каждая резиденция оснащена системой биодинамического освещения.',
-    image: 'https://i.ibb.co/PzQNRFfj/photo-2026-02-04-19-04-25.jpg',
+    description: 'Современный коттеджный поселок в окружении заповедных лесов. Энергоэффективные дома с панорамными окнами. В центре — общественное пространство с коворкингом, детским клубом и оздоровительным комплексом.',
+    image: '/images/msk.jpg',
     gallery: [
-      'https://i.ibb.co/PzQNRFfj/photo-2026-02-04-19-04-25.jpg'
+      '/images/msk.jpg'
     ],
     coordinates: { x: 30, y: 40 },
     geoCoordinates: [55.649629, 35.775100],
@@ -553,9 +553,9 @@ export const PROJECTS: Project[] = [
     region: 'Семилукский р-н',
     status: 'completed',
     description: 'Футуристическая зона отдыха на побережье. Полная энергонезависимость обеспечивается передовыми солнечными панелями и ветрогенераторами нового типа. Интерьеры вдохновлены морской пеной и космическими кораблями.',
-    image: 'https://i.ibb.co/VcT9RK3k/semiluki.jpg',
+    image: '/images/semiluki.jpg',
     gallery: [
-      'https://i.ibb.co/VcT9RK3k/semiluki.jpg'
+      '/images/semiluki.jpg'
     ],
     coordinates: { x: 60, y: 80 },
     geoCoordinates: [51.638340, 38.850153],
@@ -650,9 +650,9 @@ export const PROJECTS: Project[] = [
     region: 'Гагаринский р-н',
     status: 'completed',
     description: 'Уединенные резиденции в сердце северного леса. Максимальная приватность и тишина. Конструкции домов подняты над землей, чтобы сохранить экосистему мха и ягодников. Панорамное остекление стирает границы между домом и лесом.',
-    image: 'https://i.ibb.co/kVd4Pqmd/photo-2026-02-04-19-04-30.jpg',
+    image: '/images/smol.jpg',
     gallery: [
-       'https://i.ibb.co/kVd4Pqmd/photo-2026-02-04-19-04-30.jpg'
+       '/images/smol.jpg'
     ],
     coordinates: { x: 45, y: 20 },
     geoCoordinates: [61.7849, 34.3469],
