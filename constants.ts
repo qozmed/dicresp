@@ -476,7 +476,10 @@ export const PROJECTS: Project[] = [
                 "marker-color": "#ed4543",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/goretovo.pdf"
+                "fileUrl": "/goretovo.pdf",
+                "documents": [
+                    { "label": "Презентация #2", "url": "/goretovo_plus.pdf" }
+                ],
             }
         },
         {
@@ -631,7 +634,10 @@ export const PROJECTS: Project[] = [
                 "marker-color": "#ed4543",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/semiluki.pdf"
+                "fileUrl": "/semiluki.pdf",
+                "documents": [
+                    { "label": "Презентация #2", "url": "/semiluki_plus.pdf" }
+                ]
             }
         }
     ]
