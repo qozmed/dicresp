@@ -479,7 +479,7 @@ export const PROJECTS: Project[] = [
                 "fileUrl": "/goretovo.pdf",
                 "documents": [
                     { "label": "Презентация #2", "url": "/goretovo_plus.pdf" }
-                ],
+                ]
             }
         },
         {
