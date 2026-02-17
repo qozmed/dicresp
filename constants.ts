@@ -478,7 +478,7 @@ export const PROJECTS: Project[] = [
                 "actionId": "download_plan",
                 "fileUrl": "/goretovo.pdf",
                 "documents": [
-                    { "label": "Презентация #2", "url": "/goretovoplus.pdf" }
+                    { "label": "Презентация #2", "url": "/goretovoadd.pdf" }
                 ]
             }
         },
@@ -636,7 +636,7 @@ export const PROJECTS: Project[] = [
                 "actionId": "download_plan",
                 "fileUrl": "/semiluki.pdf",
                 "documents": [
-                    { "label": "Презентация #2", "url": "/semilukiplus.pdf" }
+                    { "label": "Презентация #2", "url": "/semilukiadd.pdf" }
                 ]
             }
         }
