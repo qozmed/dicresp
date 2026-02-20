@@ -5,6 +5,9 @@ export interface Project {
   region: string;
   status: 'completed' | 'in-progress' | 'planned';
   description: string;
+  selectorTitle?: string;
+  selectorSubtitle?: string;
+  selectorDescription?: string;
   image: string; // Main cover image
   gallery: string[]; // Additional images for carousel
   coordinates: { x: number; y: number }; // Percentage on the map (Legacy visual coords)

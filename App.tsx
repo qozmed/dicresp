@@ -5,16 +5,19 @@ import Philosophy from './components/Philosophy';
 import ProjectsGallery from './components/ProjectsGallery';
 import CosmicMap from './components/CosmicMap';
 import ContactFooter from './components/ContactFooter';
+import MoscowProjectsModal from './components/MoscowProjectsModal';
 import { 
   OrbitalBackground, 
   NetworkBackground, 
   VortexBackground 
 } from './components/AnimatedBackgrounds';
 import { Project } from './types';
+import { PROJECTS } from './constants';
 import { AnimatePresence } from 'framer-motion';
 
 const App: React.FC = () => {
   const [mapProject, setMapProject] = useState<Project | null>(null); // For Full Screen Map
+  const [isMoscowModalOpen, setIsMoscowModalOpen] = useState(false);
   
   const mainRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -25,6 +28,15 @@ const App: React.FC = () => {
 
   // Direct Map Access (Replaces Modal)
   const handleSelectProject = (project: Project) => {
+    if (project.id === 'p2') {
+      setIsMoscowModalOpen(true);
+      return;
+    }
+    setMapProject(project);
+  };
+
+  const handleMoscowSelect = (project: Project) => {
+    setIsMoscowModalOpen(false);
     setMapProject(project);
   };
 
@@ -153,6 +165,13 @@ const App: React.FC = () => {
         </div>
 
       </main>
+
+      <MoscowProjectsModal
+        isOpen={isMoscowModalOpen}
+        projects={PROJECTS.filter((p) => p.id === 'p2' || p.id === 'p2k')}
+        onClose={() => setIsMoscowModalOpen(false)}
+        onSelect={handleMoscowSelect}
+      />
 
       {/* FULL SCREEN MAP OVERLAY */}
       <AnimatePresence>

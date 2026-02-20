@@ -24,6 +24,10 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
   // PDF PREVIEW STATE
   const [previewFile, setPreviewFile] = useState<{ url: string; title: string } | null>(null);
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
+  const [previewError, setPreviewError] = useState<string | null>(null);
+
+  // TOAST NOTIFICATION STATE
+  const [toast, setToast] = useState<{ message: string; subMessage?: string; type: 'error' | 'success' | 'info'; visible: boolean } | null>(null);
 
   // VIDEO PREVIEW STATE
   const [videoPreview, setVideoPreview] = useState<{ url: string; title: string } | null>(null);
@@ -61,6 +65,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
   useEffect(() => {
     if (previewFile) {
         setIsLoadingPreview(true);
+        setPreviewError(null);
         // Safety timeout
         const timer = setTimeout(() => {
             setIsLoadingPreview(false);
@@ -70,6 +75,65 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
         setIsLoadingPreview(false);
     }
   }, [previewFile]);
+
+  const validateDocumentUrl = async (url: string) => {
+    try {
+      let res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+
+      // Some static hosts don't support HEAD (405). Fallback to a tiny GET.
+      if (res.status === 405 || res.status === 501) {
+        res = await fetch(url, {
+          method: 'GET',
+          cache: 'no-store',
+          headers: { Range: 'bytes=0-512' },
+        });
+      }
+
+      const contentType = res.headers.get('content-type') || '';
+
+      if (!res.ok) {
+        return { ok: false as const, reason: 'Файл не найден.' };
+      }
+
+      // Critical: when file is missing Vite/SPA often returns index.html.
+      if (contentType.includes('text/html')) {
+        return { ok: false as const, reason: 'Документ отсутствует (сервер вернул HTML вместо PDF).' };
+      }
+
+      // If server provides content-type and it's not PDF, don't open preview.
+      if (contentType && !contentType.toLowerCase().includes('pdf')) {
+        return { ok: false as const, reason: 'Файл недоступен для предпросмотра (не PDF).' };
+      }
+
+      return { ok: true as const };
+    } catch {
+      return { ok: false as const, reason: 'Не удалось загрузить документ.' };
+    }
+  };
+
+  const openPdfPreview = async (url: string, title: string) => {
+    setPreviewError(null);
+    setIsLoadingPreview(true);
+
+    const result = await validateDocumentUrl(url);
+    if (!result.ok) {
+      setIsLoadingPreview(false);
+      showToast(`Презентация недоступна: ${title}`, result.reason, 'error');
+      return;
+    }
+
+    setPreviewFile({ url, title });
+  };
+
+  const showToast = (message: string, subMessage?: string, type: 'error' | 'success' | 'info' = 'info') => {
+    setToast({ message, subMessage, type, visible: true });
+    // Auto-dismiss after 4 seconds
+    setTimeout(() => {
+      setToast((prev) => prev ? { ...prev, visible: false } : null);
+      // Fully clear after animation
+      setTimeout(() => setToast(null), 300);
+    }, 4000);
+  };
 
   // Gallery Helpers
   const nextPhoto = (e?: React.MouseEvent) => {
@@ -100,10 +164,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
             alert(`Заявка на бронирование: ${iconCaption}`);
         } else if (actionId === 'download_plan') {
             if (fileUrl) {
-                setPreviewFile({
-                    url: fileUrl,
-                    title: iconCaption || 'Документ'
-                });
+                void openPdfPreview(fileUrl, iconCaption || 'Документ');
             } else {
                 alert(`Файл для скачивания не найден для объекта: ${iconCaption}`);
             }
@@ -731,7 +792,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-0 md:p-4"
-                onClick={() => setPreviewFile(null)}
+                onClick={() => { setPreviewFile(null); setPreviewError(null); }}
             >
                 <motion.div
                     initial={{ scale: 0.9, y: 20 }}
@@ -764,7 +825,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
                                 <ExternalLink size={20} />
                              </a>
                              <button 
-                                onClick={() => setPreviewFile(null)}
+                                onClick={() => { setPreviewFile(null); setPreviewError(null); }}
                                 className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-900/20 rounded transition-colors"
                              >
                                 <X size={20} />
@@ -774,6 +835,14 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
 
                     {/* PDF Content Area */}
                     <div className="flex-1 bg-[#1A1B21] relative overflow-hidden">
+                         {previewError && (
+                            <div className="absolute inset-0 flex items-center justify-center p-8 text-center z-10 bg-black/80">
+                              <div className="max-w-lg">
+                                <p className="text-red-300 font-mono text-xs md:text-sm uppercase tracking-wider mb-3">Ошибка загрузки</p>
+                                <p className="text-gray-200 text-sm md:text-base">{previewError}</p>
+                              </div>
+                            </div>
+                         )}
                          {isLoadingPreview && (
                             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
                                 <span className="text-gray-600 font-mono text-xs animate-pulse">LOADING DATA STREAM...</span>
@@ -793,27 +862,29 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
                                 overscrollBehavior: 'auto'
                             }}
                          >
-                             <object
-                                data={`${previewFile.url}#view=Fit&zoom=page-fit`}
-                                type="application/pdf"
-                                className="w-full h-full block"
-                                style={{ minHeight: '100%' }}
-                                onLoad={() => setIsLoadingPreview(false)}
-                             >
-                                 {/* Fallback for when object fails (some mobile browsers) */}
-                                 <div className="flex flex-col items-center justify-center h-full text-gray-400 p-8 text-center">
-                                     <FileText size={48} className="mb-4 text-cyan-900" />
-                                     <p className="mb-4 text-sm font-mono">Предпросмотр недоступен на этом устройстве.</p>
-                                     <a 
-                                        href={previewFile.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-cyan-400 underline font-mono text-xs uppercase"
-                                     >
-                                        Открыть файл в новой вкладке
-                                     </a>
-                                 </div>
-                             </object>
+                             {!previewError && (
+                               <object
+                                  data={`${previewFile.url}#view=Fit&zoom=page-fit`}
+                                  type="application/pdf"
+                                  className="w-full h-full block"
+                                  style={{ minHeight: '100%' }}
+                                  onLoad={() => setIsLoadingPreview(false)}
+                               >
+                                   {/* Fallback for when object fails (some mobile browsers) */}
+                                   <div className="flex flex-col items-center justify-center h-full text-gray-400 p-8 text-center">
+                                       <FileText size={48} className="mb-4 text-cyan-900" />
+                                       <p className="mb-4 text-sm font-mono">Предпросмотр недоступен на этом устройстве.</p>
+                                       <a 
+                                          href={previewFile.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-cyan-400 underline font-mono text-xs uppercase"
+                                       >
+                                          Открыть файл в новой вкладке
+                                       </a>
+                                   </div>
+                               </object>
+                             )}
                          </div>
                     </div>
 
@@ -1120,6 +1191,91 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
              <span>ZONE: RESTRICTED</span>
           </div>
       </div>
+
+      {/* TOAST NOTIFICATION */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -50, x: '-50%' }}
+            animate={{ opacity: toast.visible ? 1 : 0, y: toast.visible ? 0 : -20 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed top-6 left-1/2 z-[200] max-w-md w-[90vw] md:w-auto"
+          >
+            <div className={`
+              relative overflow-hidden rounded-lg border backdrop-blur-xl shadow-[0_0_40px_rgba(0,0,0,0.5)]
+              ${toast.type === 'error' ? 'bg-[#0F0A0A]/95 border-red-500/50 shadow-[0_0_30px_rgba(239,68,68,0.2)]' : ''}
+              ${toast.type === 'success' ? 'bg-[#0A0F0A]/95 border-emerald-500/50 shadow-[0_0_30px_rgba(16,185,129,0.2)]' : ''}
+              ${toast.type === 'info' ? 'bg-[#0A0A0F]/95 border-cyan-500/50 shadow-[0_0_30px_rgba(0,247,255,0.2)]' : ''}
+            `}>
+              {/* Holographic border effect */}
+              <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
+              </div>
+
+              <div className="flex items-start gap-3 p-4 pr-10">
+                {/* Icon */}
+                <div className={`
+                  flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center border
+                  ${toast.type === 'error' ? 'bg-red-500/10 border-red-500/30 text-red-400' : ''}
+                  ${toast.type === 'success' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : ''}
+                  ${toast.type === 'info' ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400' : ''}
+                `}>
+                  {toast.type === 'error' && <X size={20} />}
+                  {toast.type === 'success' && <Check size={20} />}
+                  {toast.type === 'info' && <FileText size={20} />}
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-mono text-sm font-bold uppercase tracking-wider">
+                    {toast.message}
+                  </p>
+                  {toast.subMessage && (
+                    <p className={`
+                      mt-1 text-xs font-mono
+                      ${toast.type === 'error' ? 'text-red-300/80' : ''}
+                      ${toast.type === 'success' ? 'text-emerald-300/80' : ''}
+                      ${toast.type === 'info' ? 'text-cyan-300/80' : ''}
+                    `}>
+                      {toast.subMessage}
+                    </p>
+                  )}
+                </div>
+
+                {/* Close button */}
+                <button
+                  onClick={() => setToast((prev) => prev ? { ...prev, visible: false } : null)}
+                  className="absolute top-3 right-3 p-1.5 rounded-full text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Progress bar */}
+              <div className={`
+                h-[2px] w-full
+                ${toast.type === 'error' ? 'bg-red-500/20' : ''}
+                ${toast.type === 'success' ? 'bg-emerald-500/20' : ''}
+                ${toast.type === 'info' ? 'bg-cyan-500/20' : ''}
+              `}>
+                <motion.div
+                  initial={{ width: '100%' }}
+                  animate={{ width: '0%' }}
+                  transition={{ duration: 4, ease: 'linear' }}
+                  className={`
+                    h-full
+                    ${toast.type === 'error' ? 'bg-red-500' : ''}
+                    ${toast.type === 'success' ? 'bg-emerald-500' : ''}
+                    ${toast.type === 'info' ? 'bg-cyan-500' : ''}
+                  `}
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </motion.div>
   );
