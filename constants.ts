@@ -479,7 +479,7 @@ export const PROJECTS: Project[] = [
                 "marker-color": "#ed4543",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/goretovo.pdf",
+                "fileUrl": "/goretovo1.pdf",
                 "documents": [
                     { "label": "Презентация #2", "url": "/goretovoadd.pdf" }
                 ]
@@ -1837,7 +1837,7 @@ export const PROJECTS: Project[] = [
                 "marker-color": "#ed4543",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/semiluki.pdf",
+                "fileUrl": "/semiluki1.pdf",
                 "documents": [
                     { "label": "Презентация #2", "url": "/semilukiadd.pdf" }
                 ]
@@ -3350,7 +3350,7 @@ export const PROJECTS: Project[] = [
                 "description": "Кадастровый номер: 67:03:0020101:422<br>Площадь: 162 883 м2",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/ivino.pdf"
+                "fileUrl": "/ivino1.pdf"
             }
         },
         {
@@ -3367,13 +3367,13 @@ export const PROJECTS: Project[] = [
                 "iconCaption": "Спутник",
                 "marker-color": "#177bc9",
                 "documents": [
-                    { "label": "Презентация Королево", "url": "/sputnik_korolevo.pdf" }
+                    { "label": "Презентация Королево", "url": "/sputnikK.pdf" }
                 ],
                 "description": "Проект \"Спутник\".<br>Общая площадь: 73,68 Га",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/sputnik_preconcept.pdf",
-                "videoUrl": "/sputnik.mp4",
+                "fileUrl": "/sputnik_pc.pdf",
+                "videoUrl": "/sputnikc.mp4",
                 "videoButtonText": "Видео презентация"
             }
         }
