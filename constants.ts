@@ -573,7 +573,7 @@ export const PROJECTS: Project[] = [
         zoom: 16.00
     },
     mobileMapView: {
-        center: [55.75, 37.62],
+        center: [55.87978, 36.76352],
         zoom: 14.50
     },
     geoJson: {
