@@ -3272,8 +3272,8 @@ export const PROJECTS: Project[] = [
                 "description": "Проект «Созвездие».<br>Общая площадь 1798 Га",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/sozvezdie.pdf",
-                "videoUrl": "/sozvezdie.mp4",
+                "fileUrl": "/sozvezdie1.pdf",
+                "videoUrl": "/sozvezdie1.mp4",
                 "videoButtonText": "Видео презентация"
             }
         },
