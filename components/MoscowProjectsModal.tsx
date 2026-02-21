@@ -60,8 +60,8 @@ const MoscowProjectsModal: React.FC<MoscowProjectsModalProps> = ({
                   <MapPin size={14} />
                   <span>МОСКОВСКАЯ ОБЛАСТЬ</span>
                 </div>
-                <h2 className="text-3xl md:text-5xl font-display text-white uppercase tracking-wide">
-                  Выберите <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">проект</span>
+                <h2 className="text-1xl md:text-3xl font-display text-white uppercase tracking-wide">
+                  Выберите <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 py-1 inline-block">проект</span>
                 </h2>
               </div>
 
