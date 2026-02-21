@@ -508,38 +508,19 @@ export const PROJECTS: Project[] = [
             "type": "Feature",
             "id": 6,
             "geometry": {
+                "type": "Point",
                 "coordinates": [
-                    35.80345546791983,
-                    55.68487696498922
-                ],
-                "type": "Point"
+                    35.80914175102977,
+                    55.68202806183709
+                ]
             },
             "properties": {
-                "description": "Кадастровый номер: 50:18:0070121:926<br>Площадь: 293155 м2",
-                "iconCaption": "Карьер 1",
+                "description": "Общая площадь 966 755 м2",
+                "iconCaption": "Милятино",
                 "marker-color": "#ed4543",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/ggggg.pdf"
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 7,
-            "geometry": {
-                "coordinates": [
-                    35.81399838897018,
-                    55.683107966554374
-                ],
-                "type": "Point"
-            },
-            "properties": {
-                "description": "Кадастровый номер: 50:18:0070121:281<br>Площадь: 673600 м2",
-                "iconCaption": "Карьер 2",
-                "marker-color": "#ed4543",
-                "buttonText": "Смотреть презентацию",
-                "actionId": "download_plan",
-                "fileUrl": "/g.pdf"
+                "fileUrl": "/ggfdgdf.pdf"
             }
         }
     ]
