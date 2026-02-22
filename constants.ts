@@ -8,8 +8,8 @@ export const PROJECTS: Project[] = [
     region: 'Нажмите для выбора района',
     status: 'completed',
     description: 'Современный коттеджный поселок в окружении заповедных лесов. Энергоэффективные дома с панорамными окнами. В центре — общественное пространство с коворкингом, детским клубом и оздоровительным комплексом.',
-    selectorTitle: 'Можайск',
-    selectorSubtitle: 'Можайский р-н',
+    selectorTitle: 'Можайский район',
+    selectorSubtitle: '',
     selectorDescription: '',
     image: '/images/msk.jpg',
     gallery: [
@@ -540,8 +540,8 @@ export const PROJECTS: Project[] = [
     region: 'Котово',
     status: 'planned',
     description: 'Новый проект в Московской области. Данные для карты и контент будут добавлены после утверждения концепции.',
-    selectorTitle: 'Котово',
-    selectorSubtitle: 'Новый проект',
+    selectorTitle: 'Истринский район',
+    selectorSubtitle: '',
     selectorDescription: '',
     image: '/images/msk.jpg',
     gallery: [
@@ -3372,5 +3372,5 @@ export const PROJECTS: Project[] = [
 export const PHILOSOPHY_STATS: StatItem[] = [
   { id: 1, value: '12', label: 'Лет на рынке', suffix: '+' },
   { id: 2, value: '2 196', label: 'Гектаров развито', suffix: ' Га' },
-  { id: 3, value: '9', label: 'Уникальных локаций', suffix: '' },
+  { id: 3, value: '10', label: 'Уникальных локаций', suffix: '' },
 ];
