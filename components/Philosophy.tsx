@@ -27,7 +27,7 @@ const AnimatedCounter = ({ value, suffix }: { value: string, suffix?: string }) 
 
 const Philosophy: React.FC = () => {
   return (
-    <section className="relative w-full h-full flex flex-col justify-start md:justify-start lg:justify-center overflow-visible md:overflow-hidden pointer-events-none pt-12 sm:pt-16 md:pt-32 lg:pt-0 pb-6 md:pb-0">
+    <section className="relative w-full h-full flex flex-col justify-start md:justify-start lg:justify-center overflow-hidden pt-12 sm:pt-16 md:pt-20 lg:pt-0 pb-6 md:pb-0">
       <div className="container mx-auto px-4 md:px-6 relative z-10 pointer-events-auto">
         <motion.div
           initial={{ opacity: 0, x: -100 }}
@@ -60,7 +60,7 @@ const Philosophy: React.FC = () => {
                  <div className="w-2 h-2 bg-cyan-500 rounded-full opacity-50 group-hover:animate-ping"></div>
               </div>
               
-              <div className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-7xl text-white mb-2 md:mb-3 lg:mb-4 font-display tracking-tight">
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-7xl text-white mb-2 md:mb-3 lg:mb-4 font-display tracking-tight">
                 <AnimatedCounter value={stat.value} suffix={stat.suffix} />
               </div>
               
