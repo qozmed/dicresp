@@ -1721,7 +1721,7 @@ export const PROJECTS: Project[] = [
                 "marker-color": "#1e98ff",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/gwefwweg.pdf"
+                "fileUrl": "/kotovoo.pdf"
             }
         }
     ]
