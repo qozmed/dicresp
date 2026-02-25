@@ -520,14 +520,14 @@ export const PROJECTS: Project[] = [
                 "marker-color": "#ed4543",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/ggfdgdf.pdf"
+                "fileUrl": "/milyatinoo.pdf"
             }
         }
     ]
 },
     
     stats: {
-      area: '184,25 Га',
+      area: '188,25 Га',
       units: 120,
       completion: 100,
     },
@@ -3281,35 +3281,15 @@ export const PROJECTS: Project[] = [
             "type": "Feature",
             "id": 8,
             "geometry": {
+                "type": "Point",
                 "coordinates": [
-                    34.73114286070953,
-                    55.87754155411969
-                ],
-                "type": "Point"
+                    34.72975884085086,
+                    55.878138639488995
+                ]
             },
             "properties": {
+                "description": "Общая площадь 68 982 м2",
                 "iconCaption": "Лебёдки",
-                "marker-color": "#177bc9",
-                "description": "Кадастровый номер: 67:03:0030101:1159<br>Площадь: 27 658 м2",
-                "buttonText": "Смотреть презентацию",
-                "actionId": "download_plan",
-                "fileUrl": "/ggdoe.pdf"
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 9,
-            "geometry": {
-                "coordinates": [
-                    34.726713594433136,
-                    55.87806007190641
-                ],
-                "type": "Point"
-            },
-            "properties": {
-                "iconCaption": "Лебёдки",
-                "marker-color": "#177bc9",
-                "description": "Кадастровый номер: 67:03:0030101:455<br>Площадь: 41 324 м2",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
                 "fileUrl": "/ggdde.pdf"
@@ -3371,6 +3351,6 @@ export const PROJECTS: Project[] = [
 
 export const PHILOSOPHY_STATS: StatItem[] = [
   { id: 1, value: '12', label: 'Лет на рынке', suffix: '+' },
-  { id: 2, value: '2 196', label: 'Гектаров развито', suffix: ' Га' },
+  { id: 2, value: '2 200', label: 'Гектаров к освоению', suffix: ' Га' },
   { id: 3, value: '10', label: 'Уникальных локаций', suffix: '' },
 ];
