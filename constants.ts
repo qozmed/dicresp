@@ -1718,6 +1718,7 @@ export const PROJECTS: Project[] = [
             "properties": {
                 "description": "Общая площадь 213 000 м2",
                 "iconCaption": "Котово",
+                "targetPolygons": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
                 "marker-color": "#1e98ff",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
@@ -3290,6 +3291,7 @@ export const PROJECTS: Project[] = [
             "properties": {
                 "description": "Общая площадь 68 982 м2",
                 "iconCaption": "Лебёдки",
+                "targetPolygons": [2, 3],
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
                 "fileUrl": "/ggdde.pdf"

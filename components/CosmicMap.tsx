@@ -19,7 +19,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
   const originalColorsRef = useRef<Record<string | number, { fill: string; stroke: string }>>({});
   
   const [isMapLoaded, setIsMapLoaded] = useState(false);
-  const [activePolygonId, setActivePolygonId] = useState<number | string | null>(null);
+  const [activePolygonIds, setActivePolygonIds] = useState<(number | string)[]>([]);
   
   // PDF PREVIEW STATE
   const [previewFile, setPreviewFile] = useState<{ url: string; title: string } | null>(null);
@@ -218,7 +218,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
           
           objectManagerRef.current.objects.each((obj: any) => {
              if (obj.geometry.type === 'Polygon') {
-                 const isActive = activePolygonId !== null && obj.id === activePolygonId;
+                 const isActive = activePolygonIds.includes(obj.id);
                  const speed = isActive ? 5 : 1; 
                  const baseOpacity = isActive ? 0.6 : 0.3;
                  const range = isActive ? 0.25 : 0.05;
@@ -242,7 +242,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
       return () => {
           cancelAnimationFrame(animationFrameRef.current);
       };
-  }, [isMapLoaded, activePolygonId]);
+  }, [isMapLoaded, activePolygonIds]);
 
   // Helper: Ray-Casting Algorithm to check if point is in polygon
   const isPointInPolygon = (point: number[], vs: number[][]) => {
@@ -529,18 +529,29 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
                 const objectId = e.get('objectId');
                 const obj = objectManager.objects.getById(objectId);
                 if (obj.geometry.type === 'Point') {
-                    const pointCoords = obj.geometry.coordinates; 
-                    let foundPolygonId = null;
-                    objectManager.objects.each((poly: any) => {
-                        if (poly.geometry.type === 'Polygon') {
-                             if (poly.geometry.coordinates && poly.geometry.coordinates[0]) {
-                                 if (isPointInPolygon(pointCoords, poly.geometry.coordinates[0])) {
-                                     foundPolygonId = poly.id;
+                    const pointCoords = obj.geometry.coordinates;
+                    
+                    // Сначала проверяем ручное указание targetPolygons
+                    const targetPolygons = obj.properties?.targetPolygons;
+                    let foundIds: (number | string)[] = [];
+                    
+                    if (targetPolygons && Array.isArray(targetPolygons) && targetPolygons.length > 0) {
+                        // Ручной режим: используем указанные ID
+                        foundIds = targetPolygons;
+                    } else {
+                        // Автоматический фоллбек: ищем по координатам
+                        objectManager.objects.each((poly: any) => {
+                            if (poly.geometry.type === 'Polygon') {
+                                 if (poly.geometry.coordinates && poly.geometry.coordinates[0]) {
+                                     if (isPointInPolygon(pointCoords, poly.geometry.coordinates[0])) {
+                                         foundIds.push(poly.id);
+                                     }
                                  }
-                             }
-                        }
-                    });
-                    setActivePolygonId(foundPolygonId);
+                            }
+                        });
+                    }
+                    
+                    setActivePolygonIds(foundIds);
                     map.panTo(pointCoords, { duration: 600, delay: 0, timingFunction: 'ease-out' });
                 }
             });
@@ -550,7 +561,7 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
     }
 
     const onMapClick = () => {
-        setActivePolygonId(null);
+        setActivePolygonIds([]);
         if (objectManagerRef.current) objectManagerRef.current.objects.balloon.close();
         map.balloon.close();
     };
