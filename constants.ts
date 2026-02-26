@@ -3294,7 +3294,7 @@ export const PROJECTS: Project[] = [
                 "targetPolygons": [2, 3],
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/ggdde.pdf"
+                "fileUrl": "/lebedki.pdf"
             }
         },
         {

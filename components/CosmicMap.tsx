@@ -1020,15 +1020,18 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
                 transform: translateX(-50%);
                 white-space: nowrap;
                 font-family: 'Tektur', monospace;
-                font-size: 10px;
-                color: #00F7FF;
-                text-shadow: 0 0 4px rgba(0,247,255,0.8);
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.92);
+                text-shadow:
+                    0 1px 0 rgba(0, 0, 0, 0.75),
+                    0 0 6px rgba(0, 247, 255, 0.85),
+                    0 0 14px rgba(0, 247, 255, 0.45);
                 text-transform: uppercase;
                 letter-spacing: 1px;
-                background: rgba(0,0,0,0.7);
-                padding: 1px 4px;
+                background: rgba(0, 0, 0, 0.82);
+                padding: 2px 6px;
                 border-radius: 2px;
-                opacity: 0.8;
+                opacity: 1;
                 pointer-events: auto; 
             }
 
