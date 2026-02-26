@@ -212,7 +212,7 @@ const Hero: React.FC = () => {
               <motion.h2
                 custom={1.4}
                 variants={fadeInUp}
-                className="font-tech text-base sm:text-lg lg:text-xl text-white mb-3 lg:mb-4 leading-tight"
+                className="font-tech text-lg sm:text-xl lg:text-2xl text-white mb-2 lg:mb-4 leading-tight"
                 style={{ textShadow: '0 0 15px rgba(0, 247, 255, 0.3)' }}
               >
                 Цифровое Креативное<br />Пространство
@@ -229,7 +229,7 @@ const Hero: React.FC = () => {
               <motion.p
                 custom={1.6}
                 variants={fadeInUp}
-                className="font-lcd text-xs sm:text-sm lg:text-base text-white/70 leading-relaxed max-w-xs lg:max-w-sm mb-3"
+                className="font-lcd text-sm sm:text-base lg:text-lg text-white/70 leading-relaxed max-w-xs lg:max-w-sm mb-3"
               >
                 экспертная цифровая платформа по продвижению земельных активов и девелоперских решений.
               </motion.p>
@@ -237,7 +237,7 @@ const Hero: React.FC = () => {
               <motion.p
                 custom={1.8}
                 variants={fadeInUp}
-                className="font-lcd text-xs sm:text-sm lg:text-base text-white/70 leading-relaxed max-w-xs lg:max-w-sm mb-3"
+                className="font-lcd text-sm sm:text-base lg:text-lg text-white/70 leading-relaxed max-w-xs lg:max-w-sm mb-3"
               >
                 Мы объединяем технологии визуализации, маркетинга и аналитики, чтобы помочь собственникам эффективно представить свои участки инвесторам и покупателям.
               </motion.p>
