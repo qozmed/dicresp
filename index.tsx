@@ -6,7 +6,7 @@ import './index.css';
 const rootElement = document.getElementById('root');
 
 // Global error handler for startup crashes (before React mounts)
-window.onerror = function(message, source, lineno) {
+window.onerror = function(message, source, lineno, _colno) {
   console.error("Window Error Caught:", message, source, lineno);
   if (rootElement) {
     // Forcefully remove the static loading text and show error

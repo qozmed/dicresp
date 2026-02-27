@@ -6,10 +6,10 @@ import ProjectsGallery from './components/ProjectsGallery';
 import CosmicMap from './components/CosmicMap';
 import ContactFooter from './components/ContactFooter';
 import MoscowProjectsModal from './components/MoscowProjectsModal';
-import { 
-  OrbitalBackground, 
+import {  
   NetworkBackground, 
-  VortexBackground 
+  VortexBackground,
+  TopographicBackground
 } from './components/AnimatedBackgrounds';
 import { Project } from './types';
 import { PROJECTS } from './constants';
@@ -140,7 +140,7 @@ const App: React.FC = () => {
         
         {/* Section 1: Hero */}
         <div className="snap-section" id="home">
-          <OrbitalBackground />
+          <TopographicBackground />
           <Hero />
         </div>
 

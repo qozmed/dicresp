@@ -65,56 +65,115 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ width: '100%', height: '100%' }} />;
 };
 
-// 1. Hero Background: 3D Orbital Rings & Floating Particles
-export const OrbitalBackground = () => {
+// 1. Hero Background: Topographic 3D Landscape
+export const TopographicBackground = () => {
+  const smoothedMouse = useRef({ x: 0, y: 0 });
+  const initialized = useRef(false);
+
   const draw = (ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
-    // Clear with trail effect
-    ctx.fillStyle = 'rgba(5, 5, 8, 0.2)';
-    ctx.fillRect(0, 0, w, h);
+      // Smooth mouse interpolation (lerp) for fluid movement
+      if (!initialized.current) {
+          smoothedMouse.current = { x: mouse.x || w/2, y: mouse.y || h/2 };
+          initialized.current = true;
+      } else {
+          smoothedMouse.current.x += (mouse.x - smoothedMouse.current.x) * 0.05;
+          smoothedMouse.current.y += (mouse.y - smoothedMouse.current.y) * 0.05;
+      }
+      
+      const sm = smoothedMouse.current;
 
-    const cx = w / 2;
-    const cy = h / 2;
-    
-    // Parallax effect based on mouse
-    const mx = (mouse.x - cx) * 0.05;
-    const my = (mouse.y - cy) * 0.05;
+      ctx.fillStyle = '#050508';
+      ctx.fillRect(0, 0, w, h);
 
-    // Rings
-    ctx.strokeStyle = 'rgba(0, 247, 255, 0.1)';
-    ctx.lineWidth = 1;
-    
-    for (let i = 1; i <= 5; i++) {
-        ctx.beginPath();
-        // 3D rotation effect using sine/cosine squashing
-        const radius = 100 * i + Math.sin(time * 0.5) * 20;
-        const squash = 0.4; // Tilt
-        
-        for (let a = 0; a <= Math.PI * 2; a += 0.05) {
-            // Rotate the ring
-            const angle = a + time * (0.1 / i);
-            const x = cx + Math.cos(angle) * radius - mx * (i * 0.5);
-            const y = cy + Math.sin(angle) * radius * squash - my * (i * 0.5);
-            if (a === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-    }
+      // Optimized grid size for 60+ FPS
+      const cols = 45;
+      const rows = 30;
+      const scale = 160;
+      
+      const terrain: number[][] = [];
+      
+      // Generate terrain
+      let yoff = -time * 1.5; 
+      for (let y = 0; y < rows; y++) {
+          let xoff = 0;
+          terrain[y] = [];
+          for (let x = 0; x < cols; x++) {
+              const height = Math.sin(xoff) * Math.cos(yoff) * 120 + Math.sin(xoff * 0.4 - yoff * 0.6) * 80;
+              terrain[y][x] = height;
+              xoff += 0.15;
+          }
+          yoff += 0.15;
+      }
 
-    // Floating Particles
-    const pCount = 50;
-    for(let i=0; i<pCount; i++) {
-        const angle = i + time * 0.2;
-        const r = (200 + i * 10) % (w/2);
-        const px = cx + Math.cos(angle * 0.5) * r - mx;
-        const py = cy + Math.sin(angle * 0.3) * r - my;
-        
-        ctx.fillStyle = i % 2 === 0 ? '#00F7FF' : '#0066FF';
-        ctx.globalAlpha = 0.5 + Math.sin(time + i) * 0.5;
-        ctx.beginPath();
-        ctx.arc(px, py, Math.random() * 2, 0, Math.PI * 2);
-        ctx.fill();
-    }
-    ctx.globalAlpha = 1;
+      // Camera settings with mouse interaction
+      const camX = 0;
+      
+      // Normalize mouse Y offset between -1 and 1 to prevent extreme values on large screens
+      const normalizedY = Math.max(-1, Math.min(1, (sm.y - h/2) / (h/2)));
+      
+      // Lifts up and down based on mouse Y, constrained to prevent falling under
+      const camY = -250 + normalizedY * 80; 
+      const camZ = -100;
+      
+      // Slight tilt adjustment based on mouse Y
+      const angleX = 0.35 - normalizedY * 0.08; 
+      const cosX = Math.cos(angleX);
+      const sinX = Math.sin(angleX);
+
+      const project = (x: number, y: number, z: number) => {
+          let dx = x - camX;
+          let dy = y - camY;
+          let dz = z - camZ;
+          
+          // Rotate around X axis only
+          const dyRotX = dy * cosX - dz * sinX;
+          const dzRotX = dy * sinX + dz * cosX;
+          dy = dyRotX;
+          dz = dzRotX;
+          
+          // Perspective
+          const fov = 600;
+          if (dz < 1) dz = 1; 
+          
+          const projX = w / 2 + (dx * fov) / dz;
+          const projY = h + (dy * fov) / dz; // Shifted to bottom
+          
+          return { x: projX, y: projY, z: dz };
+      };
+
+      ctx.lineWidth = 1;
+      ctx.lineJoin = 'round';
+
+      // Draw polygons from back to front
+      for (let y = rows - 2; y >= 0; y--) {
+          for (let x = 0; x < cols - 1; x++) {
+              const p1 = project((x - cols / 2) * scale, terrain[y][x], y * scale);
+              const p2 = project((x + 1 - cols / 2) * scale, terrain[y][x + 1], y * scale);
+              const p3 = project((x + 1 - cols / 2) * scale, terrain[y + 1][x + 1], (y + 1) * scale);
+              const p4 = project((x - cols / 2) * scale, terrain[y + 1][x], (y + 1) * scale);
+              
+              if (p1.z < 10 || p2.z < 10 || p3.z < 10 || p4.z < 10) continue;
+
+              const depth = (p1.z + p2.z + p3.z + p4.z) / 4;
+              const maxDepth = rows * scale * 0.8;
+              const alpha = Math.max(0, 1 - depth / maxDepth);
+
+              if (alpha <= 0) continue;
+
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.lineTo(p3.x, p3.y);
+              ctx.lineTo(p4.x, p4.y);
+              ctx.closePath();
+
+              ctx.fillStyle = '#050508';
+              ctx.fill();
+
+              ctx.strokeStyle = `rgba(0, 247, 255, ${alpha * 0.6})`;
+              ctx.stroke();
+          }
+      }
   };
 
   return <div className="absolute inset-0 bg-[#050508]"><BaseCanvas draw={draw} /></div>;

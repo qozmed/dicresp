@@ -6,13 +6,16 @@ const Hero: React.FC = () => {
   const logoRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
+  const isTouchDevice = useRef(false);
+
   useEffect(() => {
     setMounted(true);
+    isTouchDevice.current = window.matchMedia('(pointer: coarse)').matches;
   }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!logoRef.current) return;
+      if (!logoRef.current || isTouchDevice.current) return;
       const rect = logoRef.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
@@ -109,7 +112,7 @@ const Hero: React.FC = () => {
                       key={`d1-${i}`}
                       custom={i}
                       variants={letterVariants}
-                      className="font-edit-undo text-base sm:text-lg md:text-xl lg:text-5xl text-white inline-block leading-none tracking-wider"
+                      className="font-edit-undo text-xl sm:text-2xl md:text-3xl lg:text-5xl text-white inline-block leading-none tracking-wider"
                       style={{
                         textShadow: '0 0 20px rgba(0, 247, 255, 0.5), 0 0 40px rgba(0, 102, 255, 0.3)',
                       }}
@@ -128,7 +131,7 @@ const Hero: React.FC = () => {
                       key={`d2-${i}`}
                       custom={i + 7}
                       variants={letterVariants}
-                      className="font-edit-undo text-base sm:text-lg md:text-xl lg:text-6xl inline-block leading-none tracking-wider animate-gradient-text"
+                      className="font-edit-undo text-2xl sm:text-3xl md:text-4xl lg:text-6xl inline-block leading-none tracking-wider animate-gradient-text"
                       style={{
                         background: 'linear-gradient(90deg, #00F7FF, #0066FF, #00F7FF, #0066FF, #00F7FF)',
                         backgroundSize: '400% 100%',
@@ -151,7 +154,7 @@ const Hero: React.FC = () => {
                       key={`d3-${i}`}
                       custom={i + 15}
                       variants={letterVariants}
-                      className="font-edit-undo text-base sm:text-lg md:text-xl lg:text-5xl text-white inline-block leading-none tracking-wider"
+                      className="font-edit-undo text-xl sm:text-2xl md:text-3xl lg:text-5xl text-white inline-block leading-none tracking-wider"
                       style={{
                         textShadow: '0 0 20px rgba(0, 247, 255, 0.5), 0 0 40px rgba(0, 102, 255, 0.3)',
                       }}
@@ -189,22 +192,61 @@ const Hero: React.FC = () => {
                   transformStyle: 'preserve-3d'
                 }}
               >
-                <motion.img
-                  src="/images/logo.png"
-                  alt="Digital Creative Space"
-                  className="w-[120px] h-[120px] sm:w-[180px] sm:h-[180px] md:w-[220px] md:h-[220px] lg:w-[260px] lg:h-[260px] object-contain brightness-0 invert"
-                  style={{
-                    filter: 'brightness(0) invert(1) drop-shadow(0 0 40px rgba(0, 247, 255, 0.4)) drop-shadow(0 0 80px rgba(0, 102, 255, 0.3))',
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                />
+                <div className="relative w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] md:w-[380px] md:h-[380px] lg:w-[520px] lg:h-[520px]">
+                  <motion.img
+                    src="/images/logo.png"
+                    alt="Digital Creative Space"
+                    className="w-full h-full object-contain brightness-0 invert"
+                    style={{
+                      filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(0, 247, 255, 0.2)) drop-shadow(0 0 60px rgba(0, 102, 255, 0.15))',
+                      opacity: 0.55,
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                  />
+
+                  <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      background:
+                        'linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 25%, rgba(255,255,255,0) 60%)',
+                      mixBlendMode: 'overlay',
+                      WebkitMaskImage: 'url(/images/logo.png)',
+                      WebkitMaskRepeat: 'no-repeat',
+                      WebkitMaskPosition: 'center',
+                      WebkitMaskSize: 'contain',
+                      maskImage: 'url(/images/logo.png)',
+                      maskRepeat: 'no-repeat',
+                      maskPosition: 'center',
+                      maskSize: 'contain',
+                      opacity: 0.6,
+                    }}
+                  />
+
+                  <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      background:
+                        'radial-gradient(circle at 30% 25%, rgba(0,247,255,0.25) 0%, rgba(0,247,255,0) 55%)',
+                      mixBlendMode: 'screen',
+                      WebkitMaskImage: 'url(/images/logo.png)',
+                      WebkitMaskRepeat: 'no-repeat',
+                      WebkitMaskPosition: 'center',
+                      WebkitMaskSize: 'contain',
+                      maskImage: 'url(/images/logo.png)',
+                      maskRepeat: 'no-repeat',
+                      maskPosition: 'center',
+                      maskSize: 'contain',
+                      opacity: 0.7,
+                    }}
+                  />
+                </div>
               </motion.div>
             </motion.div>
 
             {/* Right Column: Description */}
             <motion.div 
-              className="lg:col-span-3 flex flex-col items-center lg:items-end text-center lg:text-right order-3"
+              className="lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left order-3"
               initial="hidden"
               animate={mounted ? "visible" : "hidden"}
             >
@@ -212,10 +254,10 @@ const Hero: React.FC = () => {
               <motion.h2
                 custom={1.4}
                 variants={fadeInUp}
-                className="font-tech text-lg sm:text-xl lg:text-2xl text-white mb-2 lg:mb-4 leading-tight"
+                className="font-tech text-xl sm:text-2xl lg:text-2xl text-white mb-2 lg:mb-4 leading-tight"
                 style={{ textShadow: '0 0 15px rgba(0, 247, 255, 0.3)' }}
               >
-                Цифровое Креативное<br />Пространство
+                Цифровое Креативное<br className="hidden sm:block" /> Пространство
               </motion.h2>
 
               {/* Decorative line */}
@@ -226,93 +268,79 @@ const Hero: React.FC = () => {
               />
 
               {/* Description text */}
-              <motion.p
-                custom={1.6}
-                variants={fadeInUp}
-                className="font-lcd text-sm sm:text-base lg:text-lg text-white/70 leading-relaxed max-w-xs lg:max-w-sm mb-3"
-              >
-                экспертная цифровая платформа по продвижению земельных активов и девелоперских решений.
-              </motion.p>
-
-              <motion.p
-                custom={1.8}
-                variants={fadeInUp}
-                className="font-lcd text-sm sm:text-base lg:text-lg text-white/70 leading-relaxed max-w-xs lg:max-w-sm mb-3"
-              >
-                Мы объединяем технологии визуализации, маркетинга и аналитики, чтобы помочь собственникам эффективно представить свои участки инвесторам и покупателям.
-              </motion.p>
-
-              {/* Tech specs / Features */}
-              <motion.div
-                custom={2.0}
-                variants={fadeInUp}
-                className="mt-4 lg:mt-6 space-y-2"
-              >
-                {['Визуализация', 'Маркетинг', 'Аналитика'].map((feature, i) => (
-                  <motion.div
-                    key={feature}
-                    className="flex items-center justify-center lg:justify-end space-x-2 text-xs sm:text-sm font-mono text-[#00F7FF]/80"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={mounted ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                    transition={{ delay: 2.2 + i * 0.15, duration: 0.5 }}
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00F7FF] animate-pulse" />
-                    <span>{feature}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
+              <div className="w-full max-w-[320px] lg:w-[280px] px-4 sm:px-0">
+                <motion.p
+                  custom={1.6}
+                  variants={fadeInUp}
+                  className="font-mono text-sm lg:text-base text-white/80 leading-relaxed"
+                >
+                  экспертная цифровая
+платформа по продвижению
+земельных активов и
+девелоперских решений.
+                </motion.p>
+                <motion.p
+                  custom={1.8}
+                  variants={fadeInUp}
+                  className="font-mono text-sm lg:text-base text-white/80 leading-relaxed mt-4"
+                >
+                  Мы объединяем технологии
+визуализации, маркетинга
+и аналитики, чтобы помочь
+собственникам эффективно
+представить свои участки
+инвесторам и покупателям.
+                </motion.p>
+              </div>
             </motion.div>
           </div>
 
           {/* Bottom Section */}
           <motion.div
-            className="absolute bottom-8 sm:bottom-12 left-0 right-0 flex flex-col items-center"
+            className="relative lg:absolute lg:bottom-8 lg:sm:bottom-12 left-0 right-0 flex flex-col items-center mt-8 lg:mt-0"
             initial={{ opacity: 0, y: 20 }}
             animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 2.5, duration: 0.8 }}
           >
-            {/* Bottom text */}
-            <motion.p
-              className="font-tech text-lg sm:text-xl md:text-3xl text-white/80 tracking-[0.2em] mb-16"
-              style={{ textShadow: '0 0 15px rgba(0, 247, 255, 0.4)' }}
-            >
-              Цифровое креативное пространство
-            </motion.p>
 
-            {/* Year badge */}
+            {/* Year badge and scroll indicator - moving together */}
             <motion.div
-              className="flex items-center space-x-3"
-              whileHover={{ scale: 1.05 }}
-            >
-              <span className="font-lcd text-2xl sm:text-1xl md:text-2xl text-[#00F7FF] tracking-wider"
-                style={{ textShadow: '0 0 20px rgba(0, 247, 255, 0.6)' }}
-              >
-                2026
-              </span>
-            </motion.div>
-
-            {/* Scroll indicator */}
-            <motion.div
-              className="mt-6 cursor-pointer pointer-events-auto"
-              onClick={handleScrollDown}
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="flex flex-col items-center"
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="text-[#00F7FF]/60"
+              <motion.div
+                className="flex items-center space-x-3"
+                whileHover={{ scale: 1.05 }}
               >
-                <path
-                  d="M12 5V19M12 19L5 12M12 19L19 12"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+                <span className="font-mono text-1xl sm:text-1xl md:text-2xl text-[#00F7FF] tracking-wider"
+                  style={{ textShadow: '0 0 20px rgba(0, 247, 255, 0.6)' }}
+                >
+                  2026
+                </span>
+              </motion.div>
+
+              {/* Scroll indicator */}
+              <motion.div
+                className="mt-6 cursor-pointer pointer-events-auto"
+                onClick={handleScrollDown}
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="text-[#00F7FF]/60"
+                >
+                  <path
+                    d="M12 5V19M12 19L5 12M12 19L19 12"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
