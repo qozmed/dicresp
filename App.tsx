@@ -18,6 +18,7 @@ import { AnimatePresence } from 'framer-motion';
 const App: React.FC = () => {
   const [mapProject, setMapProject] = useState<Project | null>(null); // For Full Screen Map
   const [isMoscowModalOpen, setIsMoscowModalOpen] = useState(false);
+  const [activeSectionId, setActiveSectionId] = useState<string>('home');
   
   const mainRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -116,11 +117,40 @@ const App: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const container = mainRef.current;
+    if (!container) return;
+
+    const sections = Array.from(container.querySelectorAll('.snap-section')) as HTMLElement[];
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let best: { id: string; ratio: number } | null = null;
+        for (const entry of entries) {
+          const id = (entry.target as HTMLElement).id;
+          if (!id) continue;
+          if (!best || entry.intersectionRatio > best.ratio) {
+            best = { id, ratio: entry.intersectionRatio };
+          }
+        }
+        if (best) setActiveSectionId(best.id);
+      },
+      {
+        root: container,
+        threshold: [0.25, 0.4, 0.55, 0.7],
+      }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="relative text-white h-screen w-screen overflow-hidden bg-[#050508]">
       
       {/* Navigation - Always visible unless strictly hidden, but works fine on top of map too */}
-      <Navigation onLogoClick={handleLogoClick} />
+      <Navigation onLogoClick={handleLogoClick} activeSectionId={activeSectionId} />
       
       {/* Scroll Transition Darkening Overlay */}
       {!mapProject && (
@@ -139,9 +169,23 @@ const App: React.FC = () => {
       >
         
         {/* Section 1: Hero */}
-        <div className="snap-section" id="home">
-          <TopographicBackground />
-          <Hero />
+        <div className="snap-section relative" id="home">
+          <div
+            className="absolute inset-0 pointer-events-none z-0 bg-center bg-no-repeat bg-cover"
+            style={{ backgroundImage: "url('/images/pole.jpg')", filter: 'grayscale(1) brightness(0.88) saturate(0.95)' }}
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 pointer-events-none z-[5] h-[78vh]"
+            style={{
+              background: 'linear-gradient(to top, rgba(5, 5, 8, 1) 0%, rgba(5, 5, 8, 0.85) 25%, rgba(5, 5, 8, 0) 100%)',
+            }}
+          />
+          <div className="absolute inset-0 pointer-events-none z-10 opacity-60">
+            <TopographicBackground />
+          </div>
+          <div className="relative z-20">
+            <Hero />
+          </div>
         </div>
 
         {/* Section 2: Philosophy */}

@@ -4,10 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface NavigationProps {
   onLogoClick?: () => void;
+  activeSectionId?: string;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ onLogoClick }) => {
+const Navigation: React.FC<NavigationProps> = ({ onLogoClick, activeSectionId }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const isHome = activeSectionId === 'home';
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -44,11 +47,12 @@ const Navigation: React.FC<NavigationProps> = ({ onLogoClick }) => {
     { name: 'Философия', href: '#philosophy' },
     { name: 'Проекты', href: '#projects' },
     // Map link removed
+    { name: 'Контакты', href: '#contact' },
   ];
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full z-50 py-3 md:py-6 bg-transparent transition-all duration-300 pointer-events-none sm:bg-transparent lg:bg-transparent"
+      className="fixed top-0 left-0 w-full z-[80] py-3 md:py-6 bg-transparent transition-all duration-300 pointer-events-none sm:bg-transparent lg:bg-transparent"
     >
       <div className="container mx-auto px-3 md:px-6 flex justify-between items-center pointer-events-auto">
         {/* Logo Replaced with Image */}
@@ -76,19 +80,21 @@ const Navigation: React.FC<NavigationProps> = ({ onLogoClick }) => {
         </a>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex space-x-8 xl:space-x-12">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => handleSmoothScroll(e, link.href)}
-              className="text-base lg:text-lg xl:text-xl uppercase tracking-widest text-gray-300 hover:text-[#00F7FF] transition-colors relative group"
-            >
-              {link.name}
-              <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#00F7FF] transition-all group-hover:w-full"></span>
-            </a>
-          ))}
-        </div>
+        {!isHome && (
+          <div className="hidden lg:flex space-x-8 xl:space-x-12">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => handleSmoothScroll(e, link.href)}
+                className="text-base lg:text-lg xl:text-xl uppercase tracking-widest text-gray-300 hover:text-[#00F7FF] transition-colors relative group"
+              >
+                {link.name}
+                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#00F7FF] transition-all group-hover:w-full"></span>
+              </a>
+            ))}
+          </div>
+        )}
 
         {/* Mobile Menu Button */}
         <button

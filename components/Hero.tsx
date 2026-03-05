@@ -33,6 +33,23 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const element = document.querySelector(targetId);
+    if (element) {
+      const scrollContainer = document.querySelector('.snap-container') as HTMLElement | null;
+
+      if (window.innerWidth < 768 && scrollContainer) {
+        const containerTop = scrollContainer.getBoundingClientRect().top;
+        const elementTop = (element as HTMLElement).getBoundingClientRect().top;
+        const targetTop = scrollContainer.scrollTop + (elementTop - containerTop);
+        scrollContainer.scrollTo({ top: targetTop, behavior: 'smooth' });
+      } else {
+        (element as HTMLElement).scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   const handleScrollDown = () => {
     const nextSection = document.getElementById('philosophy');
     if (nextSection) {
@@ -51,6 +68,13 @@ const Hero: React.FC = () => {
   const brandName = ['D', 'I', 'G', 'I', 'T', 'A', 'L'];
   const brandName2 = ['C', 'R', 'E', 'A', 'T', 'I', 'V', 'E'];
   const brandName3 = ['S', 'P', 'A', 'C', 'E'];
+
+  const navLinks = [
+    { name: 'Главная', href: '#home' },
+    { name: 'Философия', href: '#philosophy' },
+    { name: 'Проекты', href: '#projects' },
+    { name: 'Контакты', href: '#contact' },
+  ];
 
   const letterVariants = {
     hidden: { opacity: 0, y: 40, rotateX: -90 },
@@ -92,15 +116,15 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full h-full min-h-[100vh] flex items-center justify-center overflow-hidden pointer-events-none">
+    <section className="relative w-full min-h-[100svh] flex flex-col overflow-hidden pointer-events-none pt-8 sm:pt-24 lg:pt-28 pb-4 sm:pb-8">
       <div className="relative z-20 w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 pointer-events-auto">
-        <div className="h-full min-h-[100vh] relative flex items-center">
+        <div className="relative flex flex-col min-h-[calc(100svh-5rem)]">
           {/* Main 3-column layout */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center py-16 lg:py-0">
+          <div className="w-full sm:flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 auto-rows-min sm:auto-rows-auto gap-2 sm:gap-8 lg:gap-6 items-start sm:items-center content-start sm:content-center py-0 sm:py-8 lg:py-0">
             
             {/* Left Column: Logo Text Only */}
             <motion.div 
-              className="lg:col-span-3 flex flex-col items-center lg:items-start lg:-ml-8 text-center lg:text-left order-2 lg:order-2"
+              className="hidden sm:flex lg:col-span-3 flex-col items-center lg:items-start lg:-ml-8 text-center lg:text-left order-1 lg:order-2"
               initial="hidden"
               animate={mounted ? "visible" : "hidden"}
             >
@@ -164,12 +188,29 @@ const Hero: React.FC = () => {
                   ))}
                 </div>
               </div>
+
+              <div className="hidden md:block mt-6 w-full max-w-[320px] self-start">
+                <div className="flex flex-col items-start gap-6">
+                  {navLinks.map((link) => (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      onClick={(e) => handleSmoothScroll(e, link.href)}
+                      className="font-tech text-2xl uppercase tracking-widest text-white/90 hover:text-[#00F7FF] transition-colors text-left"
+                      style={{ textShadow: '0 0 18px rgba(0, 247, 255, 0.25)' }}
+                    >
+                      {link.name}
+                      <span className="block w-16 h-[1px] bg-gradient-to-l from-[#00F7FF] to-transparent mt-2 origin-right" />
+                    </a>
+                  ))}
+                </div>
+              </div>
             </motion.div>
 
             {/* Center Column: Your Logo */}
             <motion.div 
               ref={logoRef}
-              className="lg:col-span-6 flex items-center justify-center order-1 lg:order-2 py-8 lg:py-0"
+              className="lg:col-span-6 flex items-center justify-center order-2 lg:order-2 py-0 sm:py-4 lg:py-0"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={mounted ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -192,14 +233,17 @@ const Hero: React.FC = () => {
                   transformStyle: 'preserve-3d'
                 }}
               >
-                <div className="relative w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] md:w-[380px] md:h-[380px] lg:w-[520px] lg:h-[520px]">
+                <div
+                  className="relative w-[clamp(170px,42vw,360px)] h-[clamp(170px,42vw,360px)] sm:w-[clamp(260px,50vw,560px)] sm:h-[clamp(260px,50vw,560px)] lg:w-[clamp(360px,30vw,520px)] lg:h-[clamp(360px,30vw,520px)]"
+                  style={{ maxWidth: '42svh', maxHeight: '42svh' }}
+                >
                   <motion.img
                     src="/images/logo.png"
                     alt="Digital Creative Space"
                     className="w-full h-full object-contain brightness-0 invert"
                     style={{
                       filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(0, 247, 255, 0.2)) drop-shadow(0 0 60px rgba(0, 102, 255, 0.15))',
-                      opacity: 0.55,
+                      opacity: 0.22,
                     }}
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 200, damping: 15 }}
@@ -246,7 +290,7 @@ const Hero: React.FC = () => {
 
             {/* Right Column: Description */}
             <motion.div 
-              className="lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left order-3"
+              className="lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left order-3 mt-7 sm:mt-0"
               initial="hidden"
               animate={mounted ? "visible" : "hidden"}
             >
@@ -272,24 +316,24 @@ const Hero: React.FC = () => {
                 <motion.p
                   custom={1.6}
                   variants={fadeInUp}
-                  className="font-mono text-sm lg:text-base text-white/80 leading-relaxed"
+                  className="font-mono text-xs sm:text-sm lg:text-base text-white/80 leading-relaxed"
                 >
                   экспертная цифровая
-платформа по продвижению
-земельных активов и
-девелоперских решений.
+                  платформа по продвижению
+                  земельных активов и
+                  девелоперских решений.
                 </motion.p>
                 <motion.p
                   custom={1.8}
                   variants={fadeInUp}
-                  className="font-mono text-sm lg:text-base text-white/80 leading-relaxed mt-4"
+                  className="font-mono text-xs sm:text-sm lg:text-base text-white/80 leading-relaxed mt-3 sm:mt-4"
                 >
                   Мы объединяем технологии
-визуализации, маркетинга
-и аналитики, чтобы помочь
-собственникам эффективно
-представить свои участки
-инвесторам и покупателям.
+                  визуализации, маркетинга
+                  и аналитики, чтобы помочь
+                  собственникам эффективно
+                  представить свои участки
+                  инвесторам и покупателям.
                 </motion.p>
               </div>
             </motion.div>
@@ -297,41 +341,29 @@ const Hero: React.FC = () => {
 
           {/* Bottom Section */}
           <motion.div
-            className="relative lg:absolute lg:bottom-8 lg:sm:bottom-12 left-0 right-0 flex flex-col items-center mt-8 lg:mt-0"
+            className="mt-auto flex flex-col items-center mb-2 sm:mb-6 lg:mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 2.5, duration: 0.8 }}
           >
-
-            {/* Year badge and scroll indicator - moving together */}
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               className="flex flex-col items-center"
             >
-              <motion.div
-                className="flex items-center space-x-3"
-                whileHover={{ scale: 1.05 }}
-              >
-                <span className="font-mono text-1xl sm:text-1xl md:text-2xl text-[#00F7FF] tracking-wider"
+              <motion.div className="flex items-center space-x-3" whileHover={{ scale: 1.05 }}>
+                <span
+                  className="font-mono text-1xl sm:text-1xl md:text-2xl text-[#00F7FF] tracking-wider"
                   style={{ textShadow: '0 0 20px rgba(0, 247, 255, 0.6)' }}
                 >
                   2026
                 </span>
               </motion.div>
-
-              {/* Scroll indicator */}
               <motion.div
-                className="mt-6 cursor-pointer pointer-events-auto"
+                className="mt-0.5 sm:mt-2 cursor-pointer pointer-events-auto"
                 onClick={handleScrollDown}
               >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="text-[#00F7FF]/60"
-                >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-[#00F7FF]/60">
                   <path
                     d="M12 5V19M12 19L5 12M12 19L19 12"
                     stroke="currentColor"

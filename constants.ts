@@ -3275,7 +3275,7 @@ export const PROJECTS: Project[] = [
                 "description": "Кадастровый номер: 67:03:0030101:4925<br>Площадь: 100 000 м2",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/ggrfs.pdf"
+                "fileUrl": "/virodovo.pdf"
             }
         },
         {

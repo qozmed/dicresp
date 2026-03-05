@@ -13,19 +13,23 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
 
     let animationFrameId: number;
     let time = 0;
+    let running = true;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
     
     // Track internal dimensions
     let w = 0;
     let h = 0;
 
     const render = () => {
+      if (!running || reduceMotion) return;
       time += 0.01;
       draw(ctx, w, h, time, mouseRef.current);
       animationFrameId = requestAnimationFrame(render);
     };
 
     const handleResize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       w = window.innerWidth;
       h = window.innerHeight;
       
@@ -34,10 +38,12 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
       canvas.height = h * dpr;
 
       // Normalize coordinate system to use CSS pixels
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
     };
 
     const handleMouseMove = (e: MouseEvent) => {
+        if (isCoarsePointer) return;
         const rect = canvas.getBoundingClientRect();
         mouseRef.current = {
             x: e.clientX - rect.left,
@@ -45,19 +51,33 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
         };
     };
 
+    const handleVisibility = () => {
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(animationFrameId);
+      } else {
+        running = true;
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
     window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('visibilitychange', handleVisibility);
     
     // Initial setup
     handleResize();
     // Initial center mouse pos
     mouseRef.current = { x: w / 2, y: h / 2 };
 
-    render();
+    if (!reduceMotion) {
+      render();
+    }
 
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('visibilitychange', handleVisibility);
       cancelAnimationFrame(animationFrameId);
     };
   }, [draw]);
@@ -69,6 +89,11 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
 export const TopographicBackground = () => {
   const smoothedMouse = useRef({ x: 0, y: 0 });
   const initialized = useRef(false);
+  const isCoarsePointer = useRef(false);
+
+  useEffect(() => {
+    isCoarsePointer.current = window.matchMedia('(pointer: coarse)').matches;
+  }, []);
 
   const draw = (ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
       // Smooth mouse interpolation (lerp) for fluid movement
@@ -82,13 +107,13 @@ export const TopographicBackground = () => {
       
       const sm = smoothedMouse.current;
 
-      ctx.fillStyle = '#050508';
-      ctx.fillRect(0, 0, w, h);
+      ctx.clearRect(0, 0, w, h);
 
       // Optimized grid size for 60+ FPS
-      const cols = 45;
-      const rows = 30;
-      const scale = 160;
+      const coarse = isCoarsePointer.current || w < 900;
+      const cols = coarse ? 28 : 45;
+      const rows = coarse ? 20 : 30;
+      const scale = coarse ? 190 : 160;
       
       const terrain: number[][] = [];
       
@@ -167,16 +192,13 @@ export const TopographicBackground = () => {
               ctx.lineTo(p4.x, p4.y);
               ctx.closePath();
 
-              ctx.fillStyle = '#050508';
-              ctx.fill();
-
               ctx.strokeStyle = `rgba(0, 247, 255, ${alpha * 0.6})`;
               ctx.stroke();
           }
       }
   };
 
-  return <div className="absolute inset-0 bg-[#050508]"><BaseCanvas draw={draw} /></div>;
+  return <div className="absolute inset-0 bg-transparent"><BaseCanvas draw={draw} /></div>;
 };
 
 // 2. Philosophy Background: Neural Network / Constellation
