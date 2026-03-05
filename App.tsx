@@ -150,7 +150,9 @@ const App: React.FC = () => {
     <div className="relative text-white h-screen w-screen overflow-hidden bg-[#050508]">
       
       {/* Navigation - Always visible unless strictly hidden, but works fine on top of map too */}
-      <Navigation onLogoClick={handleLogoClick} activeSectionId={activeSectionId} />
+      {!mapProject && (
+        <Navigation onLogoClick={handleLogoClick} activeSectionId={activeSectionId} />
+      )}
       
       {/* Scroll Transition Darkening Overlay */}
       {!mapProject && (

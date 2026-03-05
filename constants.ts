@@ -3270,12 +3270,12 @@ export const PROJECTS: Project[] = [
                 "type": "Point"
             },
             "properties": {
-                "iconCaption": "Выродово",
+                "iconCaption": "Восток",
                 "marker-color": "#177bc9",
                 "description": "Кадастровый номер: 67:03:0030101:4925<br>Площадь: 100 000 м2",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
-                "fileUrl": "/virodovo.pdf"
+                "fileUrl": "/vostok.pdf"
             }
         },
         {
