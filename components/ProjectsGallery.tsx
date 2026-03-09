@@ -146,6 +146,12 @@ const ProjectsGallery: React.FC<ProjectsGalleryProps> = ({ onSelectProject, onOp
           ))}
         </div>
 
+        <div className="sm:hidden px-3 pt-2 pb-4">
+          <p className="text-gray-400 font-mono text-xs bg-black/50 p-2 rounded backdrop-blur-sm border-l border-cyan-500">
+            Для размещения информации о Вашем проекте на данном портале, обратитесь с заявкой через форму обратной связи.
+          </p>
+        </div>
+
         {/* Desktop/tablet grid */}
         <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {sortedProjects.map((project, index) => (
