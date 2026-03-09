@@ -40,7 +40,7 @@ const ProjectsGallery: React.FC<ProjectsGalleryProps> = ({ onSelectProject, onOp
           
           <div className="hidden lg:block text-right mt-4 lg:mt-0">
              <p className="text-gray-400 font-mono text-sm max-w-xs mb-2 bg-black/50 p-2 rounded backdrop-blur-sm border-l border-cyan-500">
-                 Каждый проект — это отдельная вселенная с уникальной философией.
+                 Для размещения информации о Вашем проекте на данном портале, обратитесь с заявкой через форму обратной связи.
              </p>
           </div>
         </div>
