@@ -84,9 +84,9 @@ export const PROJECTS: Project[] = [
             },
             "properties": {
                 "description": "50:18:0070402:1106 150000м2",
-                "fill": "#ed4543",
+                "fill": "#177bc9",
                 "fill-opacity": 0.6,
-                "stroke": "#ed4543",
+                "stroke": "#0e4779",
                 "stroke-width": "5",
                 "stroke-opacity": 0.9
             }
@@ -163,9 +163,9 @@ export const PROJECTS: Project[] = [
             },
             "properties": {
                 "description": "50:18:0070121:926 293155 м2",
-                "fill": "#ed4543",
+                "fill": "#177bc9",
                 "fill-opacity": 0.6,
-                "stroke": "#ed4543",
+                "stroke": "#0e4779",
                 "stroke-width": "5",
                 "stroke-opacity": 0.9
             }
@@ -298,9 +298,9 @@ export const PROJECTS: Project[] = [
             },
             "properties": {
                 "description": "50:18:0070121:281 673600 м2",
-                "fill": "#ed4543",
+                "fill": "#177bc9",
                 "fill-opacity": 0.6,
-                "stroke": "#ed4543",
+                "stroke": "#0e4779",
                 "stroke-width": "5",
                 "stroke-opacity": 0.9
             }
@@ -525,9 +525,9 @@ export const PROJECTS: Project[] = [
             },
             "properties": {
                 "description": "50:18:0070119:90 725762 м2",
-                "fill": "#ed4543",
+                "fill": "#177bc9",
                 "fill-opacity": 0.6,
-                "stroke": "#ed4543",
+                "stroke": "#0e4779",
                 "stroke-width": "5",
                 "stroke-opacity": 0.9
             }
@@ -545,7 +545,7 @@ export const PROJECTS: Project[] = [
             "properties": {
                 "description": "Кадастровый номер: 50:18:0070402:1106<br>Площадь: 150000м2",
                 "iconCaption": "Горетово",
-                "marker-color": "#ed4543",
+                "marker-color": "#1e98ff",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
                 "fileUrl": "/goretovo1.pdf",
@@ -567,7 +567,7 @@ export const PROJECTS: Project[] = [
             "properties": {
                 "description": "Кадастровый номер: 50:18:0070105:217<br>Площадь: 725762 м2",
                 "iconCaption": "Батынки",
-                "marker-color": "#ed4543",
+                "marker-color": "#1e98ff",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
                 "fileUrl": "/batinki.pdf"
@@ -586,7 +586,7 @@ export const PROJECTS: Project[] = [
             "properties": {
                 "description": "Общая площадь 966 755 м2",
                 "iconCaption": "Милятино",
-                "marker-color": "#ed4543",
+                "marker-color": "#1e98ff",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
                 "fileUrl": "/milyatinoo.pdf",
