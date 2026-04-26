@@ -749,49 +749,6 @@ export const PROJECTS: Project[] = [
                 "coordinates": [
                     [
                         [
-                            36.760251432088,
-                            55.87934272835192
-                        ],
-                        [
-                            36.76037481370268,
-                            55.87902007018161
-                        ],
-                        [
-                            36.76098635735808,
-                            55.87908038032463
-                        ],
-                        [
-                            36.760970264103996,
-                            55.87931257349681
-                        ],
-                        [
-                            36.76074495854674,
-                            55.87951159510584
-                        ],
-                        [
-                            36.760251432088,
-                            55.87934272835192
-                        ]
-                    ]
-                ]
-            },
-            "properties": {
-                "description": "50:08:060179:54 1250 м2",
-                "fill": "#177bc9",
-                "fill-opacity": 0.6,
-                "stroke": "#0e4779",
-                "stroke-width": "5",
-                "stroke-opacity": 0.9
-            }
-        },
-        {
-            "type": "Feature",
-            "id": 3,
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [
                             36.76075102879129,
                             55.879507925677665
                         ],
@@ -825,7 +782,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 4,
+            "id": 3,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -864,7 +821,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 5,
+            "id": 4,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -903,7 +860,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 6,
+            "id": 5,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -942,7 +899,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 7,
+            "id": 6,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -985,7 +942,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 8,
+            "id": 7,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1024,7 +981,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 9,
+            "id": 8,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1071,7 +1028,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 10,
+            "id": 9,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1110,7 +1067,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 11,
+            "id": 10,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1153,7 +1110,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 12,
+            "id": 11,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1192,7 +1149,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 13,
+            "id": 12,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1231,7 +1188,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 14,
+            "id": 13,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1270,7 +1227,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 15,
+            "id": 14,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1309,7 +1266,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 16,
+            "id": 15,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1348,7 +1305,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 17,
+            "id": 16,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1387,7 +1344,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 18,
+            "id": 17,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1426,7 +1383,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 19,
+            "id": 18,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1465,7 +1422,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 20,
+            "id": 19,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1504,7 +1461,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 21,
+            "id": 20,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1543,7 +1500,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 22,
+            "id": 21,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1582,7 +1539,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 23,
+            "id": 22,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1621,7 +1578,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 24,
+            "id": 23,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1660,7 +1617,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 25,
+            "id": 24,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1699,7 +1656,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 26,
+            "id": 25,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1738,7 +1695,7 @@ export const PROJECTS: Project[] = [
         },
         {
             "type": "Feature",
-            "id": 27,
+            "id": 26,
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1788,7 +1745,7 @@ export const PROJECTS: Project[] = [
             "properties": {
                 "description": "Общая площадь 213 000 м2",
                 "iconCaption": "Котово",
-                "targetPolygons": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
+                "targetPolygons": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
                 "marker-color": "#1e98ff",
                 "buttonText": "Смотреть презентацию",
                 "actionId": "download_plan",
