@@ -238,7 +238,7 @@ const Hero: React.FC = () => {
                   style={{ maxWidth: '42svh', maxHeight: '42svh' }}
                 >
                   <motion.img
-                    src="/images/logo.png"
+                    src="/images/logo.webp"
                     alt="Digital Creative Space"
                     className="w-full h-full object-contain brightness-0 invert"
                     style={{
@@ -255,11 +255,11 @@ const Hero: React.FC = () => {
                       background:
                         'linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 25%, rgba(255,255,255,0) 60%)',
                       mixBlendMode: 'overlay',
-                      WebkitMaskImage: 'url(/images/logo.png)',
+                      WebkitMaskImage: 'url(/images/logo.webp)',
                       WebkitMaskRepeat: 'no-repeat',
                       WebkitMaskPosition: 'center',
                       WebkitMaskSize: 'contain',
-                      maskImage: 'url(/images/logo.png)',
+                      maskImage: 'url(/images/logo.webp)',
                       maskRepeat: 'no-repeat',
                       maskPosition: 'center',
                       maskSize: 'contain',
@@ -273,11 +273,11 @@ const Hero: React.FC = () => {
                       background:
                         'radial-gradient(circle at 30% 25%, rgba(0,247,255,0.25) 0%, rgba(0,247,255,0) 55%)',
                       mixBlendMode: 'screen',
-                      WebkitMaskImage: 'url(/images/logo.png)',
+                      WebkitMaskImage: 'url(/images/logo.webp)',
                       WebkitMaskRepeat: 'no-repeat',
                       WebkitMaskPosition: 'center',
                       WebkitMaskSize: 'contain',
-                      maskImage: 'url(/images/logo.png)',
+                      maskImage: 'url(/images/logo.webp)',
                       maskRepeat: 'no-repeat',
                       maskPosition: 'center',
                       maskSize: 'contain',

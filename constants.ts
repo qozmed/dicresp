@@ -11,9 +11,9 @@ export const PROJECTS: Project[] = [
     selectorTitle: 'Можайский район',
     selectorSubtitle: '',
     selectorDescription: '',
-    image: '/images/msk.jpg',
+    image: '/images/msk.webp',
     gallery: [
-      '/images/msk.jpg'
+      '/images/msk.webp'
     ],
     coordinates: { x: 30, y: 40 },
     geoCoordinates: [55.649629, 35.775100],
@@ -613,9 +613,9 @@ export const PROJECTS: Project[] = [
     selectorTitle: 'Истринский район',
     selectorSubtitle: '',
     selectorDescription: '',
-    image: '/images/msk.jpg',
+    image: '/images/msk.webp',
     gallery: [
-      '/images/msk.jpg'
+      '/images/msk.webp'
     ],
     coordinates: { x: 30, y: 40 },
     geoCoordinates: [55.87978, 36.76352],
@@ -1768,9 +1768,9 @@ export const PROJECTS: Project[] = [
     region: 'Семилукский р-н',
     status: 'completed',
     description: 'Футуристическая зона отдыха на побережье. Полная энергонезависимость обеспечивается передовыми солнечными панелями и ветрогенераторами нового типа. Интерьеры вдохновлены морской пеной и космическими кораблями.',
-    image: '/images/semiluki.jpg',
+    image: '/images/semiluki.webp',
     gallery: [
-      '/images/semiluki.jpg'
+      '/images/semiluki.webp'
     ],
     coordinates: { x: 60, y: 80 },
     geoCoordinates: [51.638340, 38.850153],
@@ -1868,9 +1868,9 @@ export const PROJECTS: Project[] = [
     region: 'Гагаринский р-н',
     status: 'completed',
     description: 'Уединенные резиденции в сердце северного леса. Максимальная приватность и тишина. Конструкции домов подняты над землей, чтобы сохранить экосистему мха и ягодников. Панорамное остекление стирает границы между домом и лесом.',
-    image: '/images/smol.jpg',
+    image: '/images/smol.webp',
     gallery: [
-       '/images/smol.jpg'
+       '/images/smol.webp'
     ],
     coordinates: { x: 45, y: 20 },
     geoCoordinates: [61.7849, 34.3469],

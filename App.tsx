@@ -174,7 +174,7 @@ const App: React.FC = () => {
         <div className="snap-section relative" id="home">
           <div
             className="absolute inset-0 pointer-events-none z-0 bg-center bg-no-repeat bg-cover"
-            style={{ backgroundImage: "url('/images/pole.jpg')", filter: 'brightness(0.88) saturate(0.95)' }}
+            style={{ backgroundImage: "url('/images/pole.webp')", filter: 'brightness(0.88) saturate(0.95)' }}
           />
           <div
             className="absolute inset-x-0 bottom-0 pointer-events-none z-[5] h-[78vh]"
