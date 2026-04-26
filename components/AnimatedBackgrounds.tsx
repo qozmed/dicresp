@@ -43,12 +43,22 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-        if (isCoarsePointer) return;
         const rect = canvas.getBoundingClientRect();
         mouseRef.current = {
             x: e.clientX - rect.left,
             y: e.clientY - rect.top
         };
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+        if (e.touches.length > 0) {
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            mouseRef.current = {
+                x: touch.clientX - rect.left,
+                y: touch.clientY - rect.top
+            };
+        }
     };
 
     const handleVisibility = () => {
@@ -63,6 +73,8 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
 
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchstart', handleTouchMove, { passive: true });
     document.addEventListener('visibilitychange', handleVisibility);
     
     // Initial setup
@@ -77,6 +89,8 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchstart', handleTouchMove);
       document.removeEventListener('visibilitychange', handleVisibility);
       cancelAnimationFrame(animationFrameId);
     };
