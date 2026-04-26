@@ -28,7 +28,7 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 1000,
   },
-  base: './',
+  base: '/',
   optimizeDeps: {
     include: ['react', 'react-dom', 'framer-motion'],
   },
