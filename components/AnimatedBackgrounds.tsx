@@ -1,9 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 // Updated interface to include mouse position
 const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number, height: number, time: number, mouse: {x: number, y: number}) => void }> = ({ draw }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const drawRef = useRef(draw);
+
+  // Update draw ref when it changes
+  useEffect(() => {
+    drawRef.current = draw;
+  }, [draw]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -24,7 +30,7 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
     const render = () => {
       if (!running || reduceMotion) return;
       time += 0.01;
-      draw(ctx, w, h, time, mouseRef.current);
+      drawRef.current(ctx, w, h, time, mouseRef.current);
       animationFrameId = requestAnimationFrame(render);
     };
 
@@ -94,7 +100,7 @@ const BaseCanvas: React.FC<{ draw: (ctx: CanvasRenderingContext2D, width: number
       document.removeEventListener('visibilitychange', handleVisibility);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [draw]);
+  }, []); // Empty dependency array - setup only once
 
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ width: '100%', height: '100%' }} />;
 };
@@ -109,7 +115,7 @@ export const TopographicBackground = () => {
     isCoarsePointer.current = window.matchMedia('(pointer: coarse)').matches;
   }, []);
 
-  const draw = (ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
+  const draw = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
       // Smooth mouse interpolation (lerp) for fluid movement
       if (!initialized.current) {
           smoothedMouse.current = { x: mouse.x || w/2, y: mouse.y || h/2 };
@@ -210,7 +216,7 @@ export const TopographicBackground = () => {
               ctx.stroke();
           }
       }
-  };
+  }, []); // useCallback dependency array
 
   return <div className="absolute inset-0 bg-transparent"><BaseCanvas draw={draw} /></div>;
 };
@@ -219,7 +225,7 @@ export const TopographicBackground = () => {
 export const NetworkBackground = () => {
     const nodesRef = useRef<any[]>([]);
 
-    const draw = (ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
+    const draw = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
         ctx.fillStyle = '#050508'; // Solid clean
         ctx.fillRect(0, 0, w, h);
         
@@ -285,14 +291,14 @@ export const NetworkBackground = () => {
                 }
             }
         });
-    };
+    }, []); // useCallback dependency array
 
     return <div className="absolute inset-0 bg-transparent sm:bg-transparent md:bg-transparent lg:bg-transparent"><BaseCanvas draw={draw} /></div>;
 };
 
 // 3. Projects Background: Digital City (Isometric Rising Blocks) - CENTERED & ADJUSTED
 export const DigitalCityBackground = () => {
-    const draw = (ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
+    const draw = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
         ctx.fillStyle = '#050508';
         ctx.fillRect(0, 0, w, h);
 
@@ -377,14 +383,14 @@ export const DigitalCityBackground = () => {
                 ctx.stroke();
             }
         }
-    };
+    }, []); // useCallback dependency array
 
     return <div className="absolute inset-0 bg-transparent sm:bg-transparent md:bg-transparent lg:bg-transparent"><BaseCanvas draw={draw} /></div>;
 };
 
 // 4. Contact Background: Vortex
 export const VortexBackground = () => {
-    const draw = (ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
+    const draw = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
         ctx.fillStyle = 'rgba(5, 5, 8, 0.3)';
         ctx.fillRect(0, 0, w, h);
 
@@ -413,14 +419,14 @@ export const VortexBackground = () => {
         }
         
         ctx.translate(-tx, -ty);
-    };
+    }, []); // useCallback dependency array
 
     return <div className="absolute inset-0 bg-transparent sm:bg-transparent md:bg-transparent lg:bg-transparent"><BaseCanvas draw={draw} /></div>;
 };
 
 // 5. Map Background: Digital Terrain Wave (Interactive) - FIXED ARTIFACTS
 export const MapBackground = () => {
-    const draw = (ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
+    const draw = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number, time: number, mouse: {x: number, y: number}) => {
         // Clean dark fill
         ctx.fillStyle = '#020205'; 
         ctx.fillRect(0, 0, w, h);
@@ -469,7 +475,7 @@ export const MapBackground = () => {
         
         ctx.fillStyle = grad;
         ctx.fillRect(0, scanY - 2, w, 4);
-    };
+    }, []); // useCallback dependency array
 
     return <div className="absolute inset-0 bg-[#020205]"><BaseCanvas draw={draw} /></div>;
 };
