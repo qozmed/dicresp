@@ -124,7 +124,7 @@ const Hero: React.FC = () => {
             
             {/* Left Column: Logo Text Only */}
             <motion.div 
-              className="hidden sm:flex lg:col-span-3 flex-col items-center lg:items-start lg:-ml-8 text-center lg:text-left order-1 lg:order-2"
+              className="hidden sm:flex lg:col-span-3 flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-1"
               initial="hidden"
               animate={mounted ? "visible" : "hidden"}
             >
@@ -189,8 +189,8 @@ const Hero: React.FC = () => {
                 </div>
               </div>
 
-              <div className="hidden md:block mt-6 w-full max-w-[320px] self-start">
-                <div className="flex flex-col items-start gap-6">
+              <div className="hidden lg:block mt-6 w-full max-w-[320px]">
+                <div className="flex flex-col items-start gap-5">
                   {navLinks.map((link) => (
                     <a
                       key={link.name}
@@ -290,7 +290,7 @@ const Hero: React.FC = () => {
 
             {/* Right Column: Description */}
             <motion.div 
-              className="lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left order-3 mt-7 sm:mt-0"
+              className="lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left order-3 lg:order-3 mt-7 sm:mt-0"
               initial="hidden"
               animate={mounted ? "visible" : "hidden"}
             >
@@ -308,11 +308,11 @@ const Hero: React.FC = () => {
               <motion.div
                 custom={1}
                 variants={lineVariants}
-                className="hidden lg:block w-16 h-[1px] bg-gradient-to-l from-[#00F7FF] to-transparent mb-6 origin-right"
+                className="hidden lg:block w-16 h-[1px] bg-gradient-to-r from-[#00F7FF] to-transparent mb-6 origin-left"
               />
 
               {/* Description text */}
-              <div className="w-full max-w-[320px] lg:w-[280px] px-4 sm:px-0">
+              <div className="w-full max-w-[320px] px-4 sm:px-0">
                 <motion.p
                   custom={1.6}
                   variants={fadeInUp}

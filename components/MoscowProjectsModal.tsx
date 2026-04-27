@@ -54,18 +54,18 @@ const MoscowProjectsModal: React.FC<MoscowProjectsModalProps> = ({
               <X size={20} className="group-hover:rotate-90 transition-transform duration-300" />
             </button>
 
-            <div className="p-5 sm:p-6 md:p-10 lg:p-12 h-full overflow-y-auto custom-scrollbar">
-              <div className="mb-6 md:mb-8">
+            <div className="p-4 sm:p-5 md:p-8 lg:p-10 h-full overflow-y-auto custom-scrollbar">
+              <div className="mb-4 md:mb-6">
                 <div className="flex items-center space-x-2 text-cyan-500 mb-2 font-mono text-xs md:text-sm">
                   <MapPin size={14} />
                   <span>МОСКОВСКАЯ ОБЛАСТЬ</span>
                 </div>
-                <h2 className="text-1xl md:text-3xl font-display text-white uppercase tracking-wide">
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-display text-white uppercase tracking-wide">
                   Выберите <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 py-1 inline-block">локации</span>
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 pb-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 lg:gap-5 pb-4">
                 {projects.map((project) => {
                   const selectorTitle = project.selectorTitle ?? project.title;
                   const selectorSubtitle = project.selectorSubtitle ?? project.region;
@@ -75,7 +75,7 @@ const MoscowProjectsModal: React.FC<MoscowProjectsModalProps> = ({
                   <button
                     key={project.id}
                     onClick={() => onSelect(project)}
-                    className="group relative text-left overflow-hidden rounded-2xl border border-white/10 hover:border-cyan-400/60 bg-[#0A0A0F] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(0,247,255,0.12)] touch-manipulation"
+                    className="group relative text-left overflow-hidden rounded-xl md:rounded-2xl border border-white/10 hover:border-cyan-400/60 bg-[#0A0A0F] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(0,247,255,0.12)] touch-manipulation"
                   >
                     <div className="absolute inset-0">
                       <img
@@ -106,22 +106,22 @@ const MoscowProjectsModal: React.FC<MoscowProjectsModalProps> = ({
 
                     <div className="holo-overlay"></div>
 
-                    <div className="relative p-5 md:p-7 min-h-[220px] md:min-h-[260px] flex flex-col justify-between">
+                    <div className="relative p-4 md:p-5 lg:p-6 min-h-[280px] sm:min-h-[320px] md:min-h-[340px] lg:min-h-[380px] flex flex-col justify-between">
                       <div className="flex justify-between items-start">
-                        <div className="font-mono text-[10px] md:text-xs text-cyan-400 border border-cyan-500/30 px-2 py-1 rounded bg-black/70 backdrop-blur-md">
+                        <div className="font-mono text-[9px] sm:text-[10px] md:text-xs text-cyan-400 border border-cyan-500/30 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded bg-black/70 backdrop-blur-md">
                           {project.id.toUpperCase()}
                         </div>
-                        <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center bg-black/50 backdrop-blur-md group-hover:bg-cyan-500 group-hover:text-black group-hover:border-cyan-500 transition-all duration-300">
-                          <ArrowUpRight size={16} />
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-white/20 flex items-center justify-center bg-black/50 backdrop-blur-md group-hover:bg-cyan-500 group-hover:text-black group-hover:border-cyan-500 transition-all duration-300">
+                          <ArrowUpRight size={14} className="sm:w-4 sm:h-4" />
                         </div>
                       </div>
 
                       <div>
-                        <p className="text-cyan-400 font-mono text-xs md:text-sm mb-2 tracking-widest uppercase">{selectorSubtitle}</p>
-                        <h3 className="text-2xl md:text-3xl font-display text-white leading-none group-hover:text-cyan-200 transition-all">
+                        <p className="text-cyan-400 font-mono text-[10px] sm:text-xs md:text-sm mb-1.5 sm:mb-2 tracking-widest uppercase truncate">{selectorSubtitle}</p>
+                        <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display text-white leading-tight group-hover:text-cyan-200 transition-all mb-2 sm:mb-3 break-words">
                           {selectorTitle}
                         </h3>
-                        <p className="mt-3 text-gray-300 text-xs md:text-sm leading-relaxed max-w-[48ch]">
+                        <p className="text-gray-300 text-[11px] sm:text-xs md:text-sm leading-relaxed line-clamp-3 sm:line-clamp-4">
                           {selectorDescription}
                         </p>
                       </div>

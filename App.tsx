@@ -214,7 +214,7 @@ const App: React.FC = () => {
 
       <MoscowProjectsModal
         isOpen={isMoscowModalOpen}
-        projects={PROJECTS.filter((p) => p.id === 'p2' || p.id === 'p2k')}
+        projects={PROJECTS.filter((p) => p.id === 'p2' || p.id === 'p2k' || p.id === 'p3k')}
         onClose={() => setIsMoscowModalOpen(false)}
         onSelect={handleMoscowSelect}
       />

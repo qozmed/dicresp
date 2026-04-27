@@ -13,7 +13,7 @@ interface ProjectsGalleryProps {
 const ProjectsGallery: React.FC<ProjectsGalleryProps> = ({ onSelectProject, onOpenMap }) => {
   // Sort projects by order before rendering
   const sortedProjects = [...PROJECTS]
-    .filter((p) => p.id !== 'p2k')
+    .filter((p) => p.id !== 'p2k' && p.id !== 'p3k')
     .sort((a, b) => a.order - b.order);
   return (
     <section className="relative w-full h-full flex flex-col justify-start md:justify-center py-5 sm:py-8 md:py-16 lg:py-20 overflow-hidden bg-[#050508] sm:bg-transparent md:bg-transparent lg:bg-transparent">
