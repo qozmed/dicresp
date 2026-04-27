@@ -62,7 +62,7 @@ const Navigation: React.FC<NavigationProps> = ({ onLogoClick, activeSectionId })
           className="group cursor-pointer relative z-50"
         >
           <img 
-            src="/images/logo.png" 
+            src="/images/logo.webp" 
             alt="Logo" 
             loading="eager"
             decoding="async"
