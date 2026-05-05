@@ -613,9 +613,9 @@ export const PROJECTS: Project[] = [
     selectorTitle: 'Истринский район',
     selectorSubtitle: '',
     selectorDescription: '',
-    image: '/images/msk.webp',
+    image: '/images/istra.webp',
     gallery: [
-      '/images/msk.webp'
+      '/images/istra.webp'
     ],
     coordinates: { x: 30, y: 40 },
     geoCoordinates: [55.87978, 36.76352],
