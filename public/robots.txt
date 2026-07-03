@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /server/
 
+# Sitemaps
 Sitemap: https://dicresp.com/sitemap.xml

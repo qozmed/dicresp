@@ -131,6 +131,9 @@ const ProjectsGallery: React.FC<ProjectsGalleryProps> = ({ onSelectProject, onOp
                             <button 
                                 onClick={(e) => {
                                     e.stopPropagation(); // Prevent opening detail modal
+                                    if (typeof window !== 'undefined' && (window as any).ym) {
+                                      (window as any).ym(106703191, 'reachGoal', 'open_map');
+                                    }
                                     onOpenMap(project);
                                 }}
                                 className="w-full flex items-center justify-center space-x-0.5 py-0.5 bg-cyan-900/40 hover:bg-cyan-500/80 border border-cyan-500/50 text-cyan-400 hover:text-white transition-all rounded text-[6px] font-mono font-bold uppercase tracking-widest touch-manipulation"
@@ -226,6 +229,9 @@ const ProjectsGallery: React.FC<ProjectsGalleryProps> = ({ onSelectProject, onOp
                             <button 
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    if (typeof window !== 'undefined' && (window as any).ym) {
+                                      (window as any).ym(106703191, 'reachGoal', 'open_map');
+                                    }
                                     onOpenMap(project);
                                 }}
                                 className="w-full flex items-center justify-center space-x-2 py-2 bg-cyan-900/40 hover:bg-cyan-500/80 border border-cyan-500/50 text-cyan-400 hover:text-white transition-all rounded text-xs font-mono font-bold uppercase tracking-widest touch-manipulation"

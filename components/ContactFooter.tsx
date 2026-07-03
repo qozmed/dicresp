@@ -98,6 +98,9 @@ const ContactFooter: React.FC = () => {
       }
 
       setSubmitState('sent');
+      if (typeof window !== 'undefined' && (window as any).ym) {
+        (window as any).ym(106703191, 'reachGoal', 'form_submit');
+      }
       setFieldErrors({});
       setName('');
       setPhone('');
@@ -131,10 +134,10 @@ const ContactFooter: React.FC = () => {
             </p>
             
             <div className="flex space-x-4 md:space-x-8 mb-4 lg:mb-0">
-               <a href="#" className="flex items-center space-x-2 text-gray-400 hover:text-cyan-400 transition-colors group">
-                   <MessageSquare className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                   <span className="text-[10px] sm:text-xs md:text-sm font-mono group-hover:underline">DIRECT_LINK</span>
-               </a>
+                  <a href="mailto:info@dicresp.ru" className="flex items-center space-x-2 text-gray-400 hover:text-cyan-400 transition-colors group">
+                      <MessageSquare className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                      <span className="text-[10px] sm:text-xs md:text-sm font-mono group-hover:underline">info@dicresp.ru</span>
+                  </a>
             </div>
           </motion.div>
 

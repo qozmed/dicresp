@@ -239,7 +239,7 @@ const Hero: React.FC = () => {
                 >
                   <motion.img
                     src="/images/logo.webp"
-                    alt="Digital Creative Space"
+                    alt="Digital Creative Space — цифровая платформа по продвижению земельных активов"
                     className="w-full h-full object-contain brightness-0 invert"
                     style={{
                       filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(0, 247, 255, 0.2)) drop-shadow(0 0 60px rgba(0, 102, 255, 0.15))',
@@ -295,14 +295,14 @@ const Hero: React.FC = () => {
               animate={mounted ? "visible" : "hidden"}
             >
               {/* Title */}
-              <motion.h2
+              <motion.h1
                 custom={1.4}
                 variants={fadeInUp}
                 className="font-tech text-xl sm:text-2xl lg:text-2xl text-white mb-2 lg:mb-4 leading-tight"
                 style={{ textShadow: '0 0 15px rgba(0, 247, 255, 0.3)' }}
               >
                 Цифровое Креативное<br className="hidden sm:block" /> Пространство
-              </motion.h2>
+              </motion.h1>
 
               {/* Decorative line */}
               <motion.div

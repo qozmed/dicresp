@@ -163,6 +163,9 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
         if (actionId === 'reserve') {
             alert(`Заявка на бронирование: ${iconCaption}`);
         } else if (actionId === 'download_plan') {
+            if (typeof window !== 'undefined' && (window as any).ym) {
+              (window as any).ym(106703191, 'reachGoal', 'download_pdf');
+            }
             if (fileUrl) {
                 void openPdfPreview(fileUrl, iconCaption || 'Документ');
             } else {

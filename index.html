@@ -2,10 +2,163 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://api-maps.yandex.ru; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com; font-src https://fonts.gstatic.com https://fonts.cdnfonts.com; img-src 'self' data: https://mc.yandex.ru; connect-src 'self' https://mc.yandex.ru; frame-src https://mc.yandex.ru; object-src 'none';" />
     <link rel="icon" type="image/webp" href="/images/logo.webp" />
+    <!-- Preload critical images -->
+    <link rel="preload" as="image" href="/images/pole.webp" type="image/webp">
+    <link rel="preload" as="image" href="/images/logo.webp" type="image/webp">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Цифровое Креативное Пространство - инновационные решения и проекты" />
-    <title>Цифровое Креативное Пространство</title>
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="description" content="Земельные участки и девелоперские проекты в Московской и Смоленской областях. Инвестиции в проверенные земельные активы, презентации территорий, персональная консультация." />
+    <title>Земельные участки и девелоперские проекты | Digital Creative Space</title>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://dicresp.com/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dicresp.com/" />
+    <meta property="og:title" content="Земельные участки и девелоперские проекты | Digital Creative Space" />
+    <meta property="og:description" content="Продажа земельных участков и девелоперских проектов в Московской и Смоленской областях. Презентации, карта, персональная консультация." />
+    <meta property="og:image" content="https://dicresp.com/images/msk.webp" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="Digital Creative Space" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://dicresp.com/" />
+    <meta name="twitter:title" content="Земельные участки и девелоперские проекты | Digital Creative Space" />
+    <meta name="twitter:description" content="Продажа земельных участков и девелоперских проектов в Московской и Смоленской областях." />
+    <meta name="twitter:image" content="https://dicresp.com/images/msk.webp" />
+    
+    <!-- Schema.org Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Digital Creative Space",
+      "alternateName": "Цифровое Креативное Пространство",
+      "url": "https://dicresp.com/",
+      "logo": "https://dicresp.com/images/logo.webp",
+      "description": "Экспертная цифровая платформа по продвижению земельных активов и девелоперских решений.",
+      "areaServed": {
+        "@type": "Place",
+        "name": "Московская область, Смоленская область"
+      }
+    }
+    </script>
+    
+    <!-- Schema.org RealEstateListings -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateListing",
+      "name": "Земельные участки в Можайском районе Московской области",
+      "description": "Земельные активы Горетово, Батынки, Милятино в Можайском районе Московской области. Кадастровые номера 50:18:0070402:1106, 50:18:0070121:926, 50:18:0070121:281, 50:18:0070119:90. Общая площадь более 1 900 Га.",
+      "url": "https://dicresp.com/#projects",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Московская область",
+        "addressLocality": "Можайский район"
+      },
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock"
+      },
+      "broker": {
+        "@type": "Organization",
+        "name": "Digital Creative Space"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateListing",
+      "name": "Котово — земельные участки в Истринском районе Московской области",
+      "description": "Земельные участки в Истринском районе Московской области. Кадастровые номера 50:08:060179:53, 50:08:060179:63, 50:08:060179:55, 50:08:060179:91, 50:08:060179:92, 50:08:060179:90, 50:08:060179:93, 50:08:060179:89. Общая площадь 213 000 м².",
+      "url": "https://dicresp.com/#projects",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Московская область",
+        "addressLocality": "Истринский район"
+      },
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/PreOrder"
+      },
+      "broker": {
+        "@type": "Organization",
+        "name": "Digital Creative Space"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateListing",
+      "name": "Созвездие — девелоперский проект в Гагаринском районе Смоленской области",
+      "description": "Девелоперский проект Созвездие в Гагаринском районе Смоленской области. Кадастровый номер 67:13:0030103:403. Площадь 250 000 м². Готовый проект с инфраструктурой.",
+      "url": "https://dicresp.com/#projects",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Смоленская область",
+        "addressLocality": "Гагаринский район"
+      },
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock"
+      },
+      "broker": {
+        "@type": "Organization",
+        "name": "Digital Creative Space"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateListing",
+      "name": "Спутник — девелоперский проект в Гагаринском районе Смоленской области",
+      "description": "Девелоперский проект Спутник в Гагаринском районе Смоленской области. Площадь 200 000 м². Проект в стадии реализации.",
+      "url": "https://dicresp.com/#projects",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Смоленская область",
+        "addressLocality": "Гагаринский район"
+      },
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/PreOrder"
+      },
+      "broker": {
+        "@type": "Organization",
+        "name": "Digital Creative Space"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateListing",
+      "name": "Земельные участки в Семилукском районе Воронежской области",
+      "description": "Земельные участки для девелоперских проектов в Семилукском районе Воронежской области.",
+      "url": "https://dicresp.com/#projects",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Воронежская область",
+        "addressLocality": "Семилукский район"
+      },
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/PreOrder"
+      },
+      "broker": {
+        "@type": "Organization",
+        "name": "Digital Creative Space"
+      }
+    }
+    </script>
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin>
@@ -61,11 +214,11 @@
         /* Responsive base font size */
         font-size: clamp(14px, 2.5vw, 16px);
         letter-spacing: 0.05em;
-        /* Prevent text selection on mobile for better UX */
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+        /* Allow text selection for better UX and SEO */
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
         /* Prevent pull-to-refresh */
         overscroll-behavior: none;
       }
@@ -329,6 +482,24 @@
   <body>
     <noscript><div><img src="https://mc.yandex.ru/watch/106703191" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <div id="root">
+        <div style="position:absolute;left:-9999px;top:-9999px;">
+            <h1>Земельные участки и девелоперские проекты в Московской и Смоленской областях</h1>
+            <p>Digital Creative Space — экспертная цифровая платформа по продвижению земельных активов и девелоперских решений в Московской и Смоленской областях.</p>
+            <h2>Наши проекты</h2>
+            <ul>
+                <li><strong>Московская область, Можайский район</strong> — земельные участки Горетово, Батынки, Милятино. Кадастровые номера: 50:18:0070402:1106, 50:18:0070121:926, 50:18:0070121:281, 50:18:0070119:90. Площади от 1140 до 725 762 м².</li>
+                <li><strong>Московская область, Истринский район</strong> — Котово. Кадастровые номера: 50:08:060179:53, 50:08:060179:63, 50:08:060179:55, 50:08:060179:91, 50:08:060179:92, 50:08:060179:90, 50:08:060179:93, 50:08:060179:89. Общая площадь 213 000 м².</li>
+                <li><strong>Смоленская область, Гагаринский район</strong> — Созвездие. Кадастровый номер: 67:13:0030103:403. Площадь 250 000 м².</li>
+                <li><strong>Смоленская область, Гагаринский район</strong> — Спутник. Кадастровый номер: 67:13:0030103:403. Площадь 200 000 м².</li>
+                <li><strong>Воронежская область, Семилукский район</strong> — земельные участки для девелоперских проектов.</li>
+            </ul>
+            <h2>Контакты</h2>
+            <p>Email: <a href="mailto:info@dicresp.ru">info@dicresp.ru</a></p>
+            <p>Оставьте заявку для персональной консультации по выбору земельных участков и девелоперских проектов в Московской и Смоленской областях.</p>
+        </div>
+        <div style="position:absolute;left:-9999px;top:-9999px;">
+            <p>Ключевые слова: земельные участки, купить землю, девелоперские проекты, Московская область, Смоленская область, Можайский район, Истринский район, Гагаринский район, Семилукский район, инвестиции в землю, кадастровые участки, земля под ИЖС, коттеджный посёлок, эко-посёлок, земельный актив, продажа земли, кадастровый номер, участок под застройку, коммерческая земля, инвестиции в недвижимость, подмосковье, земля в Подмосковье, купить участок в Смоленской области, купить землю в Московской области.</p>
+        </div>
         <div style="height: 100vh; width: 100vw; background: #050508; color: #00F7FF; display: flex; align-items: center; justify-content: center; font-family: monospace; z-index: 99999; position: relative;">
             LOADING SYSTEM...
         </div>

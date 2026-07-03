@@ -63,7 +63,7 @@ const Navigation: React.FC<NavigationProps> = ({ onLogoClick, activeSectionId })
         >
           <img 
             src="/images/logo.webp" 
-            alt="Logo" 
+            alt="Digital Creative Space — земельные участки и девелоперские проекты" 
             loading="eager"
             decoding="async"
             fetchPriority="high"
