@@ -49,8 +49,11 @@ const CosmicMap: React.FC<CosmicMapProps> = ({ project, onBack }) => {
       return;
     }
 
+    const apiKey = import.meta.env.VITE_YANDEX_MAPS_API_KEY;
     const script = document.createElement('script');
-    script.src = "https://api-maps.yandex.ru/2.1/?lang=ru_RU";
+    script.src = apiKey
+      ? `https://api-maps.yandex.ru/v3/?apikey=${apiKey}&lang=ru_RU`
+      : "https://api-maps.yandex.ru/v3/?lang=ru_RU";
     script.id = 'ymaps-script';
     script.async = true;
     script.onload = () => {
