@@ -38,9 +38,9 @@ const Philosophy: React.FC = () => {
         >
             <div className="flex items-center space-x-2 sm:space-x-4 mb-1 md:mb-1">
                 <div className="h-[1px] w-6 sm:w-8 md:w-12 bg-cyan-500"></div>
-                <span className="text-cyan-500 uppercase tracking-widest text-[7px] sm:text-[9px] md:text-xs lg:text-sm font-mono">Наша Миссия</span>
+                <span className="text-cyan-500 uppercase tracking-widest text-xs sm:text-sm md:text-base lg:text-lg font-mono">Наша Миссия</span>
             </div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-display text-white leading-tight max-w-4xl">
+          <h2 className="text-[1.4rem] sm:text-[1.65rem] md:text-3xl lg:text-5xl font-display text-white leading-tight max-w-4xl">
             Мы создаем <span className="inline-block pt-[3px] pb-[3px] leading-[1.3] text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-600">будущее</span> сегодня
           </h2>
         </motion.div>

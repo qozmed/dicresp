@@ -33,7 +33,7 @@ const ProjectsGallery: React.FC<ProjectsGalleryProps> = ({ onSelectProject, onOp
                 <CornerRightDown size={14} />
                 <span>ПРОЕКТЫ</span>
              </div>
-            <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-display text-white uppercase tracking-wide">
+            <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-display text-white uppercase tracking-wide">
                 Наши <span className="inline-block pt-[1px] pb-[3px] leading-[1.2] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Территории</span>
             </h2>
           </motion.div>
