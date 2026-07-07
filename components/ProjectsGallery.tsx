@@ -22,7 +22,7 @@ const ProjectsGallery: React.FC<ProjectsGalleryProps> = ({ onSelectProject, onOp
       <DigitalCityBackground />
 
       <div className="container mx-auto px-3 sm:px-4 md:px-6 h-full flex flex-col justify-start md:justify-center relative z-10">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-4 sm:mb-6 md:mb-10">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-3 sm:mb-4 md:mb-6 lg:mb-10">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
